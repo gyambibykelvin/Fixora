@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book a Service</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: #f5f7fb;
+        color: #1f2937;
+      }
+
+      .page {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        padding: 24px;
+        margin-bottom: 24px;
+      }
+
+      h1,
+      h2 {
+        margin-top: 0;
+        color: #0f172a;
+      }
+
+      form {
+        display: grid;
+        gap: 14px;
+      }
+
+      label {
+        font-weight: 600;
+      }
+
+      input,
+      select,
+      button {
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid #d1d5db;
+        font-size: 14px;
+      }
+
+      button {
+        background: #2563eb;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      button:hover {
+        background: #1d4ed8;
+      }
+
+      .message {
+        padding: 10px 12px;
+        border-radius: 8px;
+        margin-bottom: 16px;
+        background: #eff6ff;
+        color: #1d4ed8;
+      }
+
+      ul {
+        padding-left: 20px;
+      }
+
+      li {
+        margin-bottom: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="card">
+        <h1>Book a Service</h1>
+
+        {% if messages %} {% for message in messages %}
+        <div class="message">{{ message }}</div>
+        {% endfor %} {% endif %}
+
+        <form method="post">
+          {% csrf_token %}
+          <label>Service</label>
+          <input type="text" name="service" required />
+
+          <label>Duration</label>
+          <input type="text" name="duration" required />
+
+          <label>Status</label>
+          <input type="text" name="status" value="pending" required />
+
+          <label>Delivery Type</label>
+          <input type="text" name="delivery_type" required />
+
+          <label>Service Type</label>
+          <input type="text" name="service_type" required />
+
+          <label>Provider</label>
+          <select name="provider">
+            {% for provider in providers %}
+            <option value="{{ provider.id }}">{{ provider.full_name }}</option>
+            {% endfor %}
+          </select>
+
+          <button type="submit">Book Now</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Your Bookings</h2>
+        {% if bookings %}
+        <ul>
+          {% for booking in bookings %}
+          <li>
+            <strong>{{ booking.service }}</strong> - {{
+            booking.provider.full_name }} ({{ booking.status }}, {{
+            booking.delivery_type }})
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p>No bookings yet.</p>
+        {% endif %}
+      </div>
+    </div>
+  </body>
+</html>
