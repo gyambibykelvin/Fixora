@@ -114,19 +114,16 @@ def dashboard(request):
     service_cards = [
         {
             'name': 'Barbering',
-            'icon': '✂️',
             'slug': 'barbering',
             'count': provider.objects.filter(service_type='barbering').count(),
         },
         {
             'name': 'Laundry',
-            'icon': '👕',
             'slug': 'laundry',
             'count': provider.objects.filter(service_type='laundry').count(),
         },
         {
             'name': 'Cleaning',
-            'icon': '🧹',
             'slug': 'cleaning',
             'count': provider.objects.filter(service_type='cleaning').count(),
         },

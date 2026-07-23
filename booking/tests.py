@@ -48,3 +48,11 @@ class BookingViewTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue(Booking.objects.filter(customer=self.user, service='Haircut').exists())
+
+    def test_my_bookings_page_shows_empty_state(self):
+        self.client.login(email='customer@example.com', password='StrongPass123')
+
+        response = self.client.get(reverse('my_bookings'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'No bookings yet')
+        self.assertContains(response, 'Explore services')

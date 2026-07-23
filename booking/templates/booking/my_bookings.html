@@ -1,0 +1,471 @@
+{% load static %}
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <title>My Bookings</title>
+    <style>
+      :root {
+        --navy: #0b1d30;
+        --navy-2: #162840;
+        --gold: #c8963e;
+        --gold-l: #f5edd8;
+        --gold-d: #a87830;
+        --bg: #fafaf8;
+        --surface: #ffffff;
+        --surface-2: #f4f2ed;
+        --text: #0b1d30;
+        --sub: #6e7a85;
+        --muted: #9aa4ae;
+        --border: #e5e3de;
+        --border-2: #d5d2cb;
+        --success: #1a7a4a;
+        --success-l: #e4f5ec;
+        --danger: #c0392b;
+        --danger-l: #fdecea;
+        --shadow: 0 2px 12px rgba(11, 29, 48, 0.07);
+        --shadow-md: 0 4px 24px rgba(11, 29, 48, 0.1);
+        --r: 10px;
+        --r-lg: 14px;
+        --r-xl: 18px;
+        --font-d: "DM Serif Display", serif;
+        --font-b: "Outfit", sans-serif;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        font-size: 16px;
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: var(--font-b);
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+
+      .pg-nav {
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        background: var(--navy);
+        padding: 0 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 48px;
+        gap: 8px;
+      }
+      .pg-nav-title {
+        font-family: var(--font-d);
+        font-size: 16px;
+        color: #fff;
+        white-space: nowrap;
+      }
+      .pg-nav-title span {
+        color: var(--gold);
+      }
+      .pg-tabs {
+        display: flex;
+        gap: 4px;
+        overflow-x: auto;
+      }
+      .pg-tab {
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: none;
+        background: transparent;
+        color: rgba(255, 255, 255, 0.5);
+        font-family: var(--font-b);
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        white-space: nowrap;
+        text-decoration: none;
+      }
+      .pg-tab:hover {
+        background: rgba(255, 255, 255, 0.08);
+        color: rgba(255, 255, 255, 0.8);
+      }
+      .pg-tab.active {
+        background: var(--gold);
+        color: #fff;
+      }
+
+      .page {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 24px 20px 48px;
+      }
+      .hero {
+        background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+        border-radius: 24px;
+        padding: 28px 28px 30px;
+        color: #fff;
+        box-shadow: var(--shadow-md);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .hero h1 {
+        font-family: var(--font-d);
+        font-size: 28px;
+        line-height: 1.2;
+        margin-bottom: 8px;
+      }
+      .hero p {
+        color: rgba(255, 255, 255, 0.82);
+        max-width: 620px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-family: var(--font-b);
+        font-size: 14px;
+        font-weight: 500;
+        padding: 12px 20px;
+        border-radius: var(--r);
+        border: none;
+        cursor: pointer;
+        transition: all 0.18s;
+        text-decoration: none;
+      }
+      .btn-primary {
+        background: var(--gold);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: var(--gold-d);
+      }
+      .btn-outline {
+        background: transparent;
+        color: #fff;
+        border: 1.5px solid rgba(255, 255, 255, 0.22);
+      }
+      .btn-outline:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .filter-card,
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-lg);
+        box-shadow: var(--shadow);
+      }
+      .filter-card {
+        margin-top: 18px;
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .filter-card label {
+        font-size: 13px;
+        color: var(--sub);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .filter-card select {
+        font-family: var(--font-b);
+        font-size: 14px;
+        padding: 10px 12px;
+        border: 1px solid var(--border-2);
+        border-radius: 999px;
+        background: var(--surface-2);
+        color: var(--text);
+      }
+
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 12px;
+        margin-top: 18px;
+      }
+      .stat-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-lg);
+        padding: 16px;
+        box-shadow: var(--shadow);
+      }
+      .stat-card span {
+        color: var(--sub);
+        font-size: 13px;
+        display: block;
+      }
+      .stat-card strong {
+        display: block;
+        margin-top: 6px;
+        font-size: 1.2rem;
+        color: var(--navy);
+      }
+
+      .bookings-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 16px;
+        margin-top: 18px;
+      }
+      .booking-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-xl);
+        padding: 20px;
+        box-shadow: var(--shadow);
+      }
+      .booking-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 5px 9px;
+        border-radius: 100px;
+        text-transform: capitalize;
+      }
+      .badge-pending,
+      .badge-confirmed {
+        background: var(--gold-l);
+        color: var(--gold-d);
+      }
+      .badge-completed {
+        background: var(--success-l);
+        color: var(--success);
+      }
+      .badge-cancelled {
+        background: var(--danger-l);
+        color: var(--danger);
+      }
+      .badge-soft {
+        background: #f3eefc;
+        color: var(--navy-2);
+      }
+      .booking-card h3 {
+        font-size: 1.05rem;
+        margin: 6px 0 6px;
+        color: var(--navy);
+      }
+      .provider {
+        color: var(--sub);
+        margin-bottom: 12px;
+      }
+      .detail-list {
+        display: grid;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .detail-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        font-size: 0.94rem;
+        color: var(--sub);
+      }
+      .detail-item span:last-child {
+        font-weight: 600;
+        color: var(--text);
+        text-align: right;
+      }
+      .booking-footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 16px;
+      }
+      .ghost-btn {
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--border-2);
+        background: var(--surface-2);
+        color: var(--navy);
+        font-weight: 600;
+      }
+      .ghost-btn:hover {
+        background: #eee9de;
+      }
+
+      .empty-card {
+        margin-top: 18px;
+        background: var(--surface);
+        border: 1px dashed var(--border-2);
+        border-radius: 24px;
+        padding: 40px 24px;
+        text-align: center;
+        box-shadow: var(--shadow);
+      }
+      .empty-card h2 {
+        font-family: var(--font-d);
+        color: var(--navy);
+        font-size: 24px;
+        margin-bottom: 8px;
+      }
+      .empty-card p {
+        color: var(--sub);
+        max-width: 560px;
+        margin: 0 auto 16px;
+      }
+
+      @media (max-width: 720px) {
+        .hero {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .booking-footer {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="pg-nav">
+      <div class="pg-nav-title">Fixora <span>Studio</span></div>
+      <div class="pg-tabs">
+        <a href="{% url 'dashboard' %}" class="pg-tab">Dashboard</a>
+        <a href="{% url 'my_bookings' %}" class="pg-tab active">My Bookings</a>
+      </div>
+    </nav>
+
+    <div class="page">
+      <section class="hero">
+        <div>
+          <h1>My bookings</h1>
+          <p>
+            Your upcoming appointments and recent services are all gathered here
+            in a calm, polished view.
+          </p>
+        </div>
+        <a href="{% url 'booking' %}" class="btn btn-primary">Book a service</a>
+      </section>
+
+      <form method="get" class="filter-card">
+        <label for="status">Showing</label>
+        <select name="status" id="status" onchange="this.form.submit()">
+          {% for value, label in status_choices %}
+          <option
+            value="{{ value }}"
+            {%
+            if
+            status_filter=""
+            ="value"
+            %}selected{%
+            endif
+            %}
+          >
+            {{ label }}
+          </option>
+          {% endfor %}
+        </select>
+      </form>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <span>Total</span>
+          <strong>{{ bookings.count }}</strong>
+        </div>
+        <div class="stat-card">
+          <span>Upcoming</span>
+          <strong>{{ upcoming_bookings.count }}</strong>
+        </div>
+        <div class="stat-card">
+          <span>Completed</span>
+          <strong>{{ completed_bookings.count }}</strong>
+        </div>
+        <div class="stat-card">
+          <span>Cancelled</span>
+          <strong>{{ cancelled_bookings.count }}</strong>
+        </div>
+      </div>
+
+      {% if bookings %}
+      <div class="bookings-grid">
+        {% for booking in bookings %}
+        <article class="booking-card">
+          <div class="booking-top">
+            <span class="badge badge-{{ booking.status }}"
+              >{{ booking.status|title }}</span
+            >
+            <span class="badge badge-soft"
+              >{{ booking.service_type|title }}</span
+            >
+          </div>
+          <h3>{{ booking.service }}</h3>
+          <p class="provider">
+            with {{ booking.provider.full_name|default:"your provider" }}
+          </p>
+
+          <div class="detail-list">
+            <div class="detail-item">
+              <span>Delivery</span>
+              <span>{{ booking.delivery_type|title }}</span>
+            </div>
+            <div class="detail-item">
+              <span>Duration</span>
+              <span>{{ booking.duration|default:"To be confirmed" }}</span>
+            </div>
+            <div class="detail-item">
+              <span>Booked for</span>
+              <span>{{ booking.service_date|default:"Soon" }}</span>
+            </div>
+          </div>
+
+          <div class="booking-footer">
+            {% if booking.status != 'cancelled' and booking.status != 'completed' %}
+            <a href="{% url 'cancel_booking' booking.id %}" class="ghost-btn"
+              >Cancel</a
+            >
+            {% else %}
+            <span></span>
+            {% endif %}
+            <a
+              href="{% url 'booking_detail' booking.id %}"
+              class="btn btn-outline"
+              >View details</a
+            >
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-card">
+        <h2>No bookings yet</h2>
+        <p>
+          Your appointments will appear here once you book a service. Start with
+          something simple and enjoy a smoother routine.
+        </p>
+        <a href="{% url 'booking' %}" class="btn btn-primary"
+          >Explore services</a
+        >
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>
