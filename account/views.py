@@ -59,13 +59,24 @@ def login_view(request):
     if request.method == "POST":
         email = request.POST.get("email")
         password = request.POST.get("password")
+        remember_me = request.POST.get("remember_me")
 
         user = authenticate(request, username=email, password=password)
 
         if user is not None:
             login(request, user)
+
+            if not remember_me:
+                #session expires when browser closes
+                request.session.set_expiry(o)
+            
+            else:
+                #session lasts for 30 days
+                request.session.set_expiry(60 * 60 *24 * 30)
+
             messages.success(request, "You have successfully logged in.")
             return redirect("dashboard")
+
         
         messages.error(request, "Invalid email or password.")
         return render(request, "account/login.html")
