@@ -68,7 +68,7 @@ def login_view(request):
 
             if not remember_me:
                 #session expires when browser closes
-                request.session.set_expiry(o)
+                request.session.set_expiry(0)
             
             else:
                 #session lasts for 30 days

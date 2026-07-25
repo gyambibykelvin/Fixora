@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fixora — Provider Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0B1D30;--navy-2:#162840;
+  --gold:#C8963E;--gold-l:#F5EDD8;--gold-d:#A87830;
+  --bg:#FAFAF8;--surface:#FFFFFF;--surface-2:#F4F2ED;
+  --text:#0B1D30;--sub:#6E7A85;--muted:#9AA4AE;
+  --border:#E5E3DE;--border-2:#D5D2CB;
+  --success:#1A7A4A;--success-l:#E4F5EC;
+  --danger:#C0392B;--danger-l:#FDECEA;
+  --info:#0C447C;--info-l:#E6F1FB;
+  --shadow:0 2px 12px rgba(11,29,48,.07);
+  --shadow-md:0 6px 28px rgba(11,29,48,.10);
+  --font-d:'DM Serif Display',serif;
+  --font-b:'Outfit',sans-serif;
+  --r:10px;--r-lg:14px;--r-xl:18px;
+}
+[data-theme="dark"]{
+  --bg:#0D1520;--surface:#131F2E;--surface-2:#1A2A3C;
+  --text:#E8EDF3;--sub:#8B9AAB;--muted:#56697A;
+  --border:#1E3048;--border-2:#253C56;
+  --gold-l:rgba(200,150,62,.15);
+  --success-l:rgba(26,122,74,.2);
+  --danger-l:rgba(192,57,43,.2);
+  --info-l:rgba(12,68,124,.3);
+  --shadow:0 2px 12px rgba(0,0,0,.3);
+  --shadow-md:0 6px 28px rgba(0,0,0,.4);
+}
+body{font-family:var(--font-b);background:var(--bg);color:var(--text);line-height:1.6;transition:background .25s,color .25s;min-height:100vh}
+
+/* ── LAYOUT ─────────────────────────── */
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+
+/* ── SIDEBAR ────────────────────────── */
+.sidebar{background:var(--navy);padding:24px 16px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+[data-theme="dark"] .sidebar{background:var(--surface)}
+.side-logo{font-family:var(--font-d);font-size:22px;color:#fff;padding:0 12px;margin-bottom:6px}
+[data-theme="dark"] .side-logo{color:var(--text)}
+.side-logo span{color:var(--gold)}
+.side-sub{font-size:11px;color:rgba(255,255,255,.35);padding:0 12px;margin-bottom:28px;letter-spacing:.5px;text-transform:uppercase;font-weight:500}
+[data-theme="dark"] .side-sub{color:var(--muted)}
+.side-nav{display:flex;flex-direction:column;gap:2px}
+.side-link{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:var(--r);color:rgba(255,255,255,.55);text-decoration:none;font-size:14px;font-weight:500;cursor:pointer;border:none;background:transparent;font-family:var(--font-b);transition:all .15s;text-align:left;width:100%;position:relative}
+[data-theme="dark"] .side-link{color:var(--sub)}
+.side-link:hover{background:rgba(255,255,255,.06);color:#fff}
+[data-theme="dark"] .side-link:hover{background:var(--surface-2);color:var(--text)}
+.side-link.active{background:rgba(255,255,255,.1);color:#fff}
+[data-theme="dark"] .side-link.active{background:var(--gold-l);color:var(--gold)}
+.side-link.active::before{content:'';position:absolute;left:-16px;top:50%;transform:translateY(-50%);width:3px;height:18px;background:var(--gold);border-radius:2px}
+.side-icon{font-size:16px;width:18px;text-align:center;flex-shrink:0}
+.side-count{margin-left:auto;background:var(--gold);color:#fff;font-size:10px;font-weight:600;padding:2px 7px;border-radius:100px}
+.side-divider{height:1px;background:rgba(255,255,255,.08);margin:16px 8px}
+[data-theme="dark"] .side-divider{background:var(--border)}
+.side-foot{margin-top:auto;display:flex;align-items:center;gap:10px;padding:12px;border-radius:var(--r);background:rgba(255,255,255,.05)}
+[data-theme="dark"] .side-foot{background:var(--surface-2)}
+.side-avatar{width:36px;height:36px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;flex-shrink:0}
+.side-foot-name{font-size:13px;font-weight:600;color:#fff}
+[data-theme="dark"] .side-foot-name{color:var(--text)}
+.side-foot-role{font-size:11px;color:rgba(255,255,255,.4)}
+[data-theme="dark"] .side-foot-role{color:var(--muted)}
+
+/* ── MAIN AREA ──────────────────────── */
+.main{display:flex;flex-direction:column}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 28px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar-title{font-family:var(--font-d);font-size:22px}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.notif-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:16px;color:var(--sub)}
+.notif-dot{position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--gold);border:1.5px solid var(--surface)}
+.theme-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;color:var(--sub)}
+.status-toggle{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;padding:8px 14px;border-radius:100px;background:var(--success-l);color:var(--success);cursor:pointer;border:none;font-family:var(--font-b)}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--success)}
+
+.content{padding:28px 28px 60px;max-width:1100px;width:100%}
+.panel{display:none}.panel.active{display:block}
+
+/* ── COMMON ─────────────────────────── */
+.sec-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px}
+.sec-hd h2{font-family:var(--font-d);font-size:22px}
+.sec-sub{font-size:13px;color:var(--sub);margin-top:2px}
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-b);font-size:13px;font-weight:500;padding:10px 18px;border-radius:var(--r);border:none;cursor:pointer;transition:all .15s}
+.btn-primary{background:var(--navy);color:#fff}
+[data-theme="dark"] .btn-primary{background:var(--gold)}
+.btn-primary:hover{opacity:.9}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-outline:hover{border-color:var(--navy);background:var(--surface-2)}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-gold:hover{opacity:.9}
+.btn-danger-outline{background:transparent;color:var(--danger);border:1px solid var(--danger-l)}
+.btn-danger-outline:hover{background:var(--danger-l)}
+.btn-sm{padding:7px 14px;font-size:12px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px}
+.badge{display:inline-flex;align-items:center;font-size:11px;font-weight:500;padding:3px 10px;border-radius:100px}
+.badge-confirmed{background:var(--info-l);color:var(--info)}
+[data-theme="dark"] .badge-confirmed{color:#7BB8F5}
+.badge-pending{background:var(--gold-l);color:var(--gold-d)}
+[data-theme="dark"] .badge-pending{color:var(--gold)}
+.badge-completed{background:var(--success-l);color:var(--success)}
+[data-theme="dark"] .badge-completed{color:#5DCA8E}
+.badge-cancelled{background:var(--danger-l);color:var(--danger)}
+[data-theme="dark"] .badge-cancelled{color:#E88080}
+
+/* ── OVERVIEW ───────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 20px}
+.stat.featured{background:var(--navy)}
+[data-theme="dark"] .stat.featured{background:var(--navy-2)}
+.stat-val{font-family:var(--font-d);font-size:28px;line-height:1;margin-bottom:5px}
+.stat.featured .stat-val{color:#fff}
+.stat-label{font-size:12px;font-weight:500;color:var(--sub);text-transform:uppercase;letter-spacing:.4px}
+.stat.featured .stat-label{color:rgba(255,255,255,.5)}
+
+.today-list{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.today-row{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px 18px;display:flex;align-items:center;gap:14px}
+.time-pill{background:var(--gold-l);color:var(--gold-d);font-family:var(--font-d);font-size:14px;padding:6px 12px;border-radius:var(--r);min-width:80px;text-align:center;flex-shrink:0}
+.today-info{flex:1}
+.today-title{font-weight:600;font-size:14px;margin-bottom:2px}
+.today-meta{font-size:12px;color:var(--sub)}
+
+/* ── BOOKINGS TABLE ─────────────────── */
+.filter-tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+.filter-tab{padding:8px 16px;border-radius:100px;font-size:13px;font-weight:500;border:1px solid var(--border);background:var(--surface);color:var(--sub);cursor:pointer;transition:all .15s;font-family:var(--font-b)}
+.filter-tab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+[data-theme="dark"] .filter-tab.active{background:var(--gold);border-color:var(--gold)}
+.booking-list{display:flex;flex-direction:column;gap:10px}
+.booking-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px 18px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.bk-customer{display:flex;align-items:center;gap:12px;flex:1;min-width:200px}
+.cust-av{width:42px;height:42px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;flex-shrink:0}
+[data-theme="dark"] .cust-av{background:var(--gold)}
+.cust-name{font-weight:600;font-size:14px;margin-bottom:2px}
+.cust-meta{font-size:12px;color:var(--sub)}
+.bk-detail{text-align:right}
+.bk-service{font-weight:600;font-size:14px;margin-bottom:2px}
+.bk-when{font-size:12px;color:var(--sub)}
+.bk-actions{display:flex;gap:8px}
+
+/* ── AVAILABILITY ───────────────────── */
+.avail-list{display:flex;flex-direction:column;gap:10px}
+.avail-row{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.avail-day{font-weight:600;font-size:14px;width:100px;flex-shrink:0}
+.avail-toggle{position:relative;width:42px;height:24px;border-radius:100px;background:var(--border-2);cursor:pointer;flex-shrink:0;transition:background .15s}
+.avail-toggle.on{background:var(--success)}
+.avail-toggle::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .15s}
+.avail-toggle.on::after{left:21px}
+.avail-time{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sub)}
+.time-input{font-family:var(--font-b);font-size:13px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text)}
+[data-theme="dark"] .time-input{background:var(--surface-2)}
+.avail-row.off .avail-time{opacity:.35}
+.avail-row.off .time-input{pointer-events:none}
+
+/* ── SERVICES ───────────────────────── */
+.svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.svc-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px;display:flex;flex-direction:column;gap:8px}
+.svc-card-top{display:flex;justify-content:space-between;align-items:flex-start}
+.svc-card-name{font-weight:600;font-size:15px}
+.svc-card-desc{font-size:13px;color:var(--sub);line-height:1.5}
+.svc-card-meta{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid var(--border);margin-top:6px}
+.svc-card-price{font-family:var(--font-d);font-size:18px;color:var(--gold)}
+.svc-card-dur{font-size:12px;color:var(--sub)}
+.svc-card-actions{display:flex;gap:6px}
+.icon-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--sub);transition:all .15s}
+.icon-btn:hover{border-color:var(--navy);color:var(--text)}
+.add-svc-card{border:1.5px dashed var(--border-2);border-radius:var(--r-lg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;cursor:pointer;color:var(--sub);transition:all .15s;gap:8px}
+.add-svc-card:hover{border-color:var(--gold);color:var(--gold-d)}
+.add-svc-icon{font-size:24px}
+
+/* ── REVIEWS ────────────────────────── */
+.rating-summary{display:flex;align-items:center;gap:24px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px;margin-bottom:20px}
+.rating-big{font-family:var(--font-d);font-size:48px;color:var(--gold);line-height:1}
+.rating-stars{color:var(--gold);font-size:16px;margin-bottom:4px}
+.rating-count{font-size:13px;color:var(--sub)}
+.rating-bars{flex:1;display:flex;flex-direction:column;gap:6px}
+.rbar-row{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--sub)}
+.rbar-track{flex:1;height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden}
+.rbar-fill{height:100%;background:var(--gold);border-radius:3px}
+.review-list{display:flex;flex-direction:column;gap:12px}
+.review-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px 18px}
+.review-head{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.rev-av{width:38px;height:38px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;flex-shrink:0}
+[data-theme="dark"] .rev-av{background:var(--gold)}
+.rev-name{font-weight:600;font-size:13px}
+.rev-date{font-size:11px;color:var(--muted)}
+.rev-stars{margin-left:auto;color:var(--gold);font-size:13px}
+.rev-text{font-size:13px;color:var(--sub);line-height:1.6}
+.rev-service{font-size:11px;color:var(--muted);margin-top:6px;font-weight:500}
+
+/* ── PROFILE SETTINGS ───────────────── */
+.profile-grid{display:grid;grid-template-columns:280px 1fr;gap:20px}
+.profile-photo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px;text-align:center;height:fit-content}
+.photo-circle{width:100px;height:100px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:32px;color:#fff;margin:0 auto 14px}
+[data-theme="dark"] .photo-circle{background:var(--gold)}
+.photo-name{font-weight:600;font-size:15px;margin-bottom:2px}
+.photo-type{font-size:12px;color:var(--sub);margin-bottom:16px}
+.form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.form-label{font-size:13px;font-weight:500}
+.form-input,.form-select,.form-textarea{font-family:var(--font-b);font-size:14px;padding:11px 14px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);color:var(--text);outline:none;transition:border-color .15s;width:100%}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold)}
+[data-theme="dark"] .form-input,[data-theme="dark"] .form-select,[data-theme="dark"] .form-textarea{background:var(--surface-2)}
+.form-textarea{resize:vertical;min-height:90px}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.delivery-pills{display:flex;gap:8px}
+.del-pill{flex:1;padding:12px;border:1.5px solid var(--border);border-radius:var(--r);text-align:center;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
+.del-pill.sel{border-color:var(--gold);background:var(--gold-l);color:var(--gold-d)}
+[data-theme="dark"] .del-pill.sel{background:rgba(200,150,62,.12);color:var(--gold)}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside class="sidebar">
+    <div class="side-logo">Fix<span>ora</span></div>
+    <div class="side-sub">Provider Dashboard</div>
+
+    <nav class="side-nav">
+      <button class="side-link active" onclick="switchPanel('overview',this)">
+        <span class="side-icon">📊</span> Overview
+      </button>
+      <button class="side-link" onclick="switchPanel('bookings',this)">
+        <span class="side-icon">📅</span> Booking Requests
+        <span class="side-count">3</span>
+      </button>
+      <button class="side-link" onclick="switchPanel('availability',this)">
+        <span class="side-icon">🕐</span> Availability
+      </button>
+      <button class="side-link" onclick="switchPanel('services',this)">
+        <span class="side-icon">✂️</span> My Services
+      </button>
+      <button class="side-link" onclick="switchPanel('reviews',this)">
+        <span class="side-icon">⭐</span> Reviews
+      </button>
+
+      <div class="side-divider"></div>
+
+      <button class="side-link" onclick="switchPanel('profile',this)">
+        <span class="side-icon">👤</span> Profile Settings
+      </button>
+      <a class="side-link" href="dashboard.html">
+        <span class="side-icon">🏠</span> Customer View
+      </a>
+      <form method="POST" action="/logout/" style="margin:0">
+        <button type="submit" class="side-link" style="width:100%">
+          <span class="side-icon">🚪</span> Sign Out
+        </button>
+      </form>
+    </nav>
+
+    <div class="side-foot">
+      <div class="side-avatar">KA</div>
+      <div>
+        <div class="side-foot-name">Kwame Asante</div>
+        <div class="side-foot-role">Barbering · Verified</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══════════ MAIN ══════════ -->
+  <div class="main">
+
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">Overview</div>
+      <div class="topbar-right">
+        <button class="status-toggle" onclick="toggleStatus(this)">
+          <span class="status-dot"></span> Accepting Bookings
+        </button>
+        <div class="notif-btn">🔔<div class="notif-dot"></div></div>
+        <button class="theme-btn" onclick="toggleTheme()">☀️</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ═══════ OVERVIEW PANEL ═══════ -->
+      <div class="panel active" id="panel-overview">
+        <div class="stats">
+          <div class="stat featured">
+            <div class="stat-val" style="color:#fff">240</div>
+            <div class="stat-label">Total Bookings</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val" style="color:var(--gold)">3</div>
+            <div class="stat-label">Pending Requests</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val" style="color:var(--success)">GH₵ 1,840</div>
+            <div class="stat-label">This Month</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val">4.9 ★</div>
+            <div class="stat-label">Average Rating</div>
+          </div>
+        </div>
+
+        <div class="sec-hd">
+          <div>
+            <h2>Today's Schedule</h2>
+            <div class="sec-sub">Thursday, June 12 · 5 appointments</div>
+          </div>
+        </div>
+        <div class="today-list">
+          <div class="today-row">
+            <div class="time-pill">9:00 AM</div>
+            <div class="today-info">
+              <div class="today-title">Haircut — Yaw Boateng</div>
+              <div class="today-meta">Walk-in · 30 mins</div>
+            </div>
+            <span class="badge badge-completed">Completed</span>
+          </div>
+          <div class="today-row">
+            <div class="time-pill">10:30 AM</div>
+            <div class="today-info">
+              <div class="today-title">Haircut & Beard Trim — Kojo Mensah</div>
+              <div class="today-meta">Walk-in · 45 mins</div>
+            </div>
+            <span class="badge badge-confirmed">Confirmed</span>
+          </div>
+          <div class="today-row">
+            <div class="time-pill">12:00 PM</div>
+            <div class="today-info">
+              <div class="today-title">Full Groom — Daniel Owusu</div>
+              <div class="today-meta">Walk-in · 60 mins</div>
+            </div>
+            <span class="badge badge-confirmed">Confirmed</span>
+          </div>
+          <div class="today-row">
+            <div class="time-pill">2:00 PM</div>
+            <div class="today-info">
+              <div class="today-title">Haircut — Emmanuel Tetteh</div>
+              <div class="today-meta">Home Visit · 30 mins</div>
+            </div>
+            <span class="badge badge-pending">Pending</span>
+          </div>
+          <div class="today-row">
+            <div class="time-pill">3:30 PM</div>
+            <div class="today-info">
+              <div class="today-title">Haircut & Beard Trim — Richard Asare</div>
+              <div class="today-meta">Walk-in · 45 mins</div>
+            </div>
+            <span class="badge badge-confirmed">Confirmed</span>
+          </div>
+        </div>
+
+        <div class="sec-hd">
+          <div>
+            <h2>New Booking Requests</h2>
+            <div class="sec-sub">Respond within 24 hours to maintain your response rate</div>
+          </div>
+          <a class="btn btn-outline btn-sm" onclick="switchPanel('bookings', document.querySelectorAll('.side-link')[1])" style="cursor:pointer">View all →</a>
+        </div>
+        <div class="booking-list">
+          <div class="booking-card">
+            <div class="bk-customer">
+              <div class="cust-av">ET</div>
+              <div>
+                <div class="cust-name">Emmanuel Tetteh</div>
+                <div class="cust-meta">+233 24 555 0192 · New customer</div>
+              </div>
+            </div>
+            <div class="bk-detail">
+              <div class="bk-service">Haircut · Home Visit</div>
+              <div class="bk-when">Today, 2:00 PM · GH₵ 60</div>
+            </div>
+            <div class="bk-actions">
+              <button class="btn btn-outline btn-sm">Decline</button>
+              <button class="btn btn-primary btn-sm">Accept</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════ BOOKINGS PANEL ═══════ -->
+      <div class="panel" id="panel-bookings">
+        <div class="sec-hd">
+          <div>
+            <h2>Booking Requests</h2>
+            <div class="sec-sub">Manage incoming and upcoming appointments</div>
+          </div>
+        </div>
+
+        <div class="filter-tabs">
+          <button class="filter-tab active" onclick="filterBookings('all',this)">All (12)</button>
+          <button class="filter-tab" onclick="filterBookings('pending',this)">Pending (3)</button>
+          <button class="filter-tab" onclick="filterBookings('confirmed',this)">Confirmed (4)</button>
+          <button class="filter-tab" onclick="filterBookings('completed',this)">Completed (4)</button>
+          <button class="filter-tab" onclick="filterBookings('cancelled',this)">Cancelled (1)</button>
+        </div>
+
+        <div class="booking-list">
+
+          <div class="booking-card" data-status="pending">
+            <div class="bk-customer">
+              <div class="cust-av">ET</div>
+              <div>
+                <div class="cust-name">Emmanuel Tetteh</div>
+                <div class="cust-meta">+233 24 555 0192</div>
+              </div>
+            </div>
+            <div class="bk-detail">
+              <div class="bk-service">Haircut · Home Visit</div>
+              <div class="bk-when">Today, 2:00 PM · GH₵ 60</div>
+            </div>
+            <span class="badge badge-pending">Pending</span>
+            <div class="bk-actions">
+              <button class="btn btn-outline btn-sm">Decline</button>
+              <button class="btn btn-primary btn-sm">Accept</button>
+            </div>
+          </div>
+
+          <div class="booking-card" data-status="pending">
+            <div class="bk-customer">
+              <div class="cust-av">JA</div>
+              <div>
+                <div class="cust-name">Joseph Amponsah</div>
+                <div class="cust-meta">+233 20 333 7781</div>
+              </div>
+            </div>
+            <div class="bk-detail">
+              <div class="bk-service">Full Groom · Walk-in</div>
+              <div class="bk-when">Tomorrow, 11:00 AM · GH₵ 120</div>
+            </div>
+            <span class="badge badge-pending">Pending</span>
+            <div class="bk-actions">
+              <button class="btn btn-outline btn-sm">Decline</button>
+              <button class="btn btn-primary btn-sm">Accept</button>
+            </div>
+          </div>
+
+          <div class="booking-card" data-status="pending">
+            <div class="bk-customer">
+              <div class="cust-av">PO</div>
+              <div>
+                <div class="cust-name">Patrick Owusu</div>
+                <div class="cust-meta">+233 27 888 4420</div>
+              </div>
+            </div>
+            <div class="bk-detail">
+              <div class="bk-service">Haircut & Beard Trim · Walk-in</div>
+              <div class="bk-when">Fri, Jun 13 · 4:00 PM · GH₵ 80</div>
+            </div>
+            <span class="badge badge-pending">Pending</span>
+            <div class="bk-actions">
+              <button class="btn btn-outline btn-sm">Decline</button>
+              <button class="btn btn-primary btn-sm">Accept</button>
+            </div>
+          </div>
+
+          <div class="booking-card" data-status="confirmed">
+            <div class="bk-customer">
+              <div class="cust-av">KM</div>
+              <div>
+                <div class="cust-name">Kojo Mensah</div>
+                <div class="cust-meta">+233 24 112 9988</div>
+              </div>
+            </div>
+            <div class="bk-detail">
+              <div class="bk-service">Haircut & Beard Trim · Walk-in</div>
+              <div class="bk-when">Today, 10:30 AM · GH₵ 80</div>
+            </div>
+            <span class="badge badge-confirmed">Confirmed</span>
+            <div class="bk-actions">
+              <button class="btn btn-outline btn-sm">Mark Complete</button>
+            </div>
+          </div>
+
+          <div class="booking-card" data-status="confirmed">
+            <div class="cust-av" style="background:var(--navy)">DO</div>
+            <div class="bk-customer" style="margin-left:-54px;padding-left:54px">
+              <div>
+                <div class="cust-name">Daniel Owusu</div>
+                <div class="cust-meta">+233 55 776 0034</div>
+              </div>
+            </div>
+            <div class="bk-detail">
+              <div class="bk-service">Full Groom · Walk-in</div>
+              <div class="bk-when">Today, 12:00 PM · GH₵ 120</div>
+            </div>
+            <span class="badge badge-confirmed">Confirmed</span>
+            <div class="bk-actions">
+              <button class="btn btn-outline btn-sm">Mark Complete</button>
+            </div>
+          </div>
+
+          <div class="booking-card" data-status="completed">
+            <div class="bk-customer">
+              <div class="cust-av">YB</div>
+              <div>
+                <div class="cust-name">Yaw Boateng</div>
+                <div class="cust-meta">+233 26 441 2290</div>
+              </div>
+            </div>
+            <div class="bk-detail">
+              <div class="bk-service">Haircut · Walk-in</div>
+              <div class="bk-when">Today, 9:00 AM · GH₵ 60</div>
+            </div>
+            <span class="badge badge-completed">Completed</span>
+            <div class="bk-actions">
+              <button class="btn btn-outline btn-sm">View Details</button>
+            </div>
+          </div>
+
+          <div class="booking-card" data-status="cancelled">
+            <div class="bk-customer">
+              <div class="cust-av">SA</div>
+              <div>
+                <div class="cust-name">Samuel Adjei</div>
+                <div class="cust-meta">+233 50 901 6623</div>
+              </div>
+            </div>
+            <div class="bk-detail">
+              <div class="bk-service">Haircut · Home Visit</div>
+              <div class="bk-when">Jun 10 · 3:00 PM · GH₵ 60</div>
+            </div>
+            <span class="badge badge-cancelled">Cancelled</span>
+            <div class="bk-actions">
+              <button class="btn btn-outline btn-sm">View Details</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ═══════ AVAILABILITY PANEL ═══════ -->
+      <div class="panel" id="panel-availability">
+        <div class="sec-hd">
+          <div>
+            <h2>Availability</h2>
+            <div class="sec-sub">Set your working hours — this controls the time slots customers can book</div>
+          </div>
+          <button class="btn btn-primary">Save Changes</button>
+        </div>
+
+        <div class="avail-list">
+          <div class="avail-row">
+            <div class="avail-day">Monday</div>
+            <div class="avail-toggle on" onclick="toggleAvail(this)"></div>
+            <div class="avail-time">
+              <input class="time-input" type="time" value="08:00"> to
+              <input class="time-input" type="time" value="18:00">
+            </div>
+          </div>
+          <div class="avail-row">
+            <div class="avail-day">Tuesday</div>
+            <div class="avail-toggle on" onclick="toggleAvail(this)"></div>
+            <div class="avail-time">
+              <input class="time-input" type="time" value="08:00"> to
+              <input class="time-input" type="time" value="18:00">
+            </div>
+          </div>
+          <div class="avail-row">
+            <div class="avail-day">Wednesday</div>
+            <div class="avail-toggle on" onclick="toggleAvail(this)"></div>
+            <div class="avail-time">
+              <input class="time-input" type="time" value="08:00"> to
+              <input class="time-input" type="time" value="18:00">
+            </div>
+          </div>
+          <div class="avail-row">
+            <div class="avail-day">Thursday</div>
+            <div class="avail-toggle on" onclick="toggleAvail(this)"></div>
+            <div class="avail-time">
+              <input class="time-input" type="time" value="08:00"> to
+              <input class="time-input" type="time" value="18:00">
+            </div>
+          </div>
+          <div class="avail-row">
+            <div class="avail-day">Friday</div>
+            <div class="avail-toggle on" onclick="toggleAvail(this)"></div>
+            <div class="avail-time">
+              <input class="time-input" type="time" value="08:00"> to
+              <input class="time-input" type="time" value="19:00">
+            </div>
+          </div>
+          <div class="avail-row">
+            <div class="avail-day">Saturday</div>
+            <div class="avail-toggle on" onclick="toggleAvail(this)"></div>
+            <div class="avail-time">
+              <input class="time-input" type="time" value="09:00"> to
+              <input class="time-input" type="time" value="17:00">
+            </div>
+          </div>
+          <div class="avail-row off">
+            <div class="avail-day">Sunday</div>
+            <div class="avail-toggle" onclick="toggleAvail(this)"></div>
+            <div class="avail-time">
+              <input class="time-input" type="time" value="00:00"> to
+              <input class="time-input" type="time" value="00:00">
+              <span style="color:var(--muted);margin-left:6px">— Closed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════ SERVICES PANEL ═══════ -->
+      <div class="panel" id="panel-services">
+        <div class="sec-hd">
+          <div>
+            <h2>My Services</h2>
+            <div class="sec-sub">Add or edit the services you offer, along with pricing and duration</div>
+          </div>
+        </div>
+
+        <div class="svc-grid">
+          <div class="svc-card">
+            <div class="svc-card-top">
+              <div class="svc-card-name">Haircut</div>
+              <div class="svc-card-actions">
+                <button class="icon-btn">✏️</button>
+                <button class="icon-btn">🗑</button>
+              </div>
+            </div>
+            <div class="svc-card-desc">A clean, sharp haircut tailored to your style — includes wash and finish.</div>
+            <div class="svc-card-meta">
+              <div class="svc-card-price">GH₵ 60</div>
+              <div class="svc-card-dur">⏱ 30 minutes</div>
+            </div>
+          </div>
+
+          <div class="svc-card">
+            <div class="svc-card-top">
+              <div class="svc-card-name">Haircut & Beard Trim</div>
+              <div class="svc-card-actions">
+                <button class="icon-btn">✏️</button>
+                <button class="icon-btn">🗑</button>
+              </div>
+            </div>
+            <div class="svc-card-desc">Full haircut paired with a precise beard shape-up and line edge.</div>
+            <div class="svc-card-meta">
+              <div class="svc-card-price">GH₵ 80</div>
+              <div class="svc-card-dur">⏱ 45 minutes</div>
+            </div>
+          </div>
+
+          <div class="svc-card">
+            <div class="svc-card-top">
+              <div class="svc-card-name">Full Groom</div>
+              <div class="svc-card-actions">
+                <button class="icon-btn">✏️</button>
+                <button class="icon-btn">🗑</button>
+              </div>
+            </div>
+            <div class="svc-card-desc">Haircut, beard trim, hot towel, and facial cleanup — the complete package.</div>
+            <div class="svc-card-meta">
+              <div class="svc-card-price">GH₵ 120</div>
+              <div class="svc-card-dur">⏱ 60 minutes</div>
+            </div>
+          </div>
+
+          <div class="add-svc-card">
+            <div class="add-svc-icon">＋</div>
+            <div style="font-weight:500;font-size:14px">Add a new service</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════ REVIEWS PANEL ═══════ -->
+      <div class="panel" id="panel-reviews">
+        <div class="sec-hd">
+          <div>
+            <h2>Reviews</h2>
+            <div class="sec-sub">What customers are saying about your service</div>
+          </div>
+        </div>
+
+        <div class="rating-summary">
+          <div style="text-align:center">
+            <div class="rating-big">4.9</div>
+            <div class="rating-stars">★★★★★</div>
+            <div class="rating-count">240 reviews</div>
+          </div>
+          <div class="rating-bars">
+            <div class="rbar-row">5 ★ <div class="rbar-track"><div class="rbar-fill" style="width:88%"></div></div> 211</div>
+            <div class="rbar-row">4 ★ <div class="rbar-track"><div class="rbar-fill" style="width:9%"></div></div> 22</div>
+            <div class="rbar-row">3 ★ <div class="rbar-track"><div class="rbar-fill" style="width:2%"></div></div> 5</div>
+            <div class="rbar-row">2 ★ <div class="rbar-track"><div class="rbar-fill" style="width:1%"></div></div> 1</div>
+            <div class="rbar-row">1 ★ <div class="rbar-track"><div class="rbar-fill" style="width:0.5%"></div></div> 1</div>
+          </div>
+        </div>
+
+        <div class="review-list">
+          <div class="review-card">
+            <div class="review-head">
+              <div class="rev-av">YB</div>
+              <div>
+                <div class="rev-name">Yaw Boateng</div>
+                <div class="rev-date">June 12, 2025</div>
+              </div>
+              <div class="rev-stars">★★★★★</div>
+            </div>
+            <div class="rev-text">Sharp cut, quick service and very professional. Kwame always knows exactly what I want. Highly recommend!</div>
+            <div class="rev-service">Service: Haircut</div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-head">
+              <div class="rev-av">RA</div>
+              <div>
+                <div class="rev-name">Richard Asare</div>
+                <div class="rev-date">June 8, 2025</div>
+              </div>
+              <div class="rev-stars">★★★★★</div>
+            </div>
+            <div class="rev-text">Been coming here for months. Consistent quality every single time. The shop is clean and the wait is never long.</div>
+            <div class="rev-service">Service: Haircut & Beard Trim</div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-head">
+              <div class="rev-av">DO</div>
+              <div>
+                <div class="rev-name">Daniel Owusu</div>
+                <div class="rev-date">June 1, 2025</div>
+              </div>
+              <div class="rev-stars">★★★★☆</div>
+            </div>
+            <div class="rev-text">Great full groom package. Took a bit longer than expected but the result was worth it.</div>
+            <div class="rev-service">Service: Full Groom</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════ PROFILE SETTINGS PANEL ═══════ -->
+      <div class="panel" id="panel-profile">
+        <div class="sec-hd">
+          <div>
+            <h2>Profile Settings</h2>
+            <div class="sec-sub">This information is visible to customers on your public profile</div>
+          </div>
+          <button class="btn btn-primary">Save Changes</button>
+        </div>
+
+        <div class="profile-grid">
+          <div class="profile-photo-card">
+            <div class="photo-circle">KA</div>
+            <div class="photo-name">Kwame Asante</div>
+            <div class="photo-type">✂️ Barbering · Verified</div>
+            <button class="btn btn-outline btn-sm" style="width:100%">Change Photo</button>
+          </div>
+
+          <div class="card">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input class="form-input" type="text" value="Kwame Asante">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <input class="form-input" type="tel" value="+233 24 555 1234">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Bio</label>
+              <textarea class="form-textarea">Professional barber with over 8 years of experience in modern and classic cuts. Specializing in fades, line-ups, and beard grooming. Walk-ins welcome — home visits available on request.</textarea>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label">Service Category</label>
+                <select class="form-select">
+                  <option selected>Barbering</option>
+                  <option>Laundry</option>
+                  <option>Cleaning</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Location / Area</label>
+                <input class="form-input" type="text" value="Kumasi Central">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Delivery Type</label>
+              <div class="delivery-pills">
+                <div class="del-pill" onclick="selectDel(this)">Walk-in only</div>
+                <div class="del-pill" onclick="selectDel(this)">Home visit only</div>
+                <div class="del-pill sel" onclick="selectDel(this)">Both</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end content -->
+  </div><!-- end main -->
+</div><!-- end layout -->
+
+<script>
+/* PANEL SWITCHING */
+const titles = {
+  overview: 'Overview',
+  bookings: 'Booking Requests',
+  availability: 'Availability',
+  services: 'My Services',
+  reviews: 'Reviews',
+  profile: 'Profile Settings'
+};
+function switchPanel(id, el){
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.side-link').forEach(l => l.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  if(el) el.classList.add('active');
+  document.getElementById('topbar-title').textContent = titles[id];
+}
+
+/* BOOKING FILTER TABS */
+function filterBookings(status, el){
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('#panel-bookings .booking-card').forEach(card => {
+    card.style.display = (status === 'all' || card.dataset.status === status) ? 'flex' : 'none';
+  });
+}
+
+/* AVAILABILITY TOGGLE */
+function toggleAvail(el){
+  el.classList.toggle('on');
+  el.closest('.avail-row').classList.toggle('off', !el.classList.contains('on'));
+}
+
+/* DELIVERY PILL SELECT */
+function selectDel(el){
+  document.querySelectorAll('.del-pill').forEach(p => p.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+/* ACCEPTING BOOKINGS TOGGLE */
+function toggleStatus(el){
+  const isOn = el.classList.contains('on-status') || el.style.background === '';
+  const currentlyOn = el.querySelector('.status-dot').style.background !== 'var(--muted)';
+  if(el.dataset.state !== 'off'){
+    el.dataset.state = 'off';
+    el.style.background = 'var(--danger-l)';
+    el.style.color = 'var(--danger)';
+    el.querySelector('.status-dot').style.background = 'var(--danger)';
+    el.innerHTML = '<span class="status-dot" style="background:var(--danger)"></span> Not Accepting Bookings';
+  } else {
+    el.dataset.state = 'on';
+    el.style.background = 'var(--success-l)';
+    el.style.color = 'var(--success)';
+    el.innerHTML = '<span class="status-dot" style="background:var(--success)"></span> Accepting Bookings';
+  }
+}
+
+/* DARK MODE */
+const themeBtn = document.querySelector('.theme-btn');
+function toggleTheme(){
+  const dark = document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme', dark?'light':'dark');
+  themeBtn.textContent = dark ? '☀️' : '🌙';
+}
+if(matchMedia('(prefers-color-scheme: dark)').matches){
+  document.documentElement.setAttribute('data-theme','dark');
+  themeBtn.textContent='🌙';
+}
+</script>
+</body>
+</html>
