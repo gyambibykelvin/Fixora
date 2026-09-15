@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
 from .models import Booking
-from provider.models import provider, Service
+from provider.models import Provider, Service
 from account.models import User
 
 # Create your views here.
@@ -28,7 +28,7 @@ def booking_view(request):
             return redirect('booking')
         
         try:
-            selected_provider = provider.objects.get(id=provider_id)
+            selected_provider = Provider.objects.get(id=provider_id)
             
             # Create booking
             booking = Booking.objects.create(
@@ -44,7 +44,7 @@ def booking_view(request):
             messages.success(request, "Booking created successfully! Check your bookings for updates.")
             return redirect('my_bookings')
             
-        except provider.DoesNotExist:
+        except Provider.DoesNotExist:
             messages.error(request, "Selected provider not found.")
             return redirect('booking')
         except Exception as e:
@@ -56,12 +56,12 @@ def booking_view(request):
     
     # Get all active providers, filter by service_type if selected
     if service_type:
-        providers = provider.objects.filter(
+        providers = Provider.objects.filter(
             service_type=service_type, 
             status='active'
         )
     else:
-        providers = provider.objects.filter(status='active')
+        providers = Provider.objects.filter(status='active')
     
     # Get all available services
     services = Service.objects.filter(is_active=True)
@@ -171,7 +171,7 @@ def browse_providers(request):
     service_type = request.GET.get('service_type', '')
     delivery_type = request.GET.get('delivery_type', '')
     
-    providers_list = provider.objects.filter(status='active')
+    providers_list = Provider.objects.filter(status='active')
     
     if service_type:
         providers_list = providers_list.filter(service_type=service_type)
@@ -209,7 +209,7 @@ def browse_providers(request):
 def provider_detail(request, provider_id):
     """Display provider details and their services"""
     
-    provider_obj = get_object_or_404(provider, id=provider_id, status='active')
+    provider_obj = get_object_or_404(Provider, id=provider_id, status='active')
     services = Service.objects.filter(provider=provider_obj, is_active=True)
     
     context = {

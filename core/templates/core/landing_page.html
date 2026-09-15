@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -6,6 +7,10 @@
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap"
       rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"
     />
     <style>
       *,
@@ -183,6 +188,10 @@
         background: var(--navy);
         color: var(--white);
       }
+      .btn-outline a:hover {
+        color: var(--white);
+      }
+
       .trust-row {
         display: flex;
         gap: 20px;
@@ -643,7 +652,7 @@
     <section style="background: var(--cream)">
       <div class="hero">
         <div class="hero-left">
-          <div class="hero-badge">Now in Kumasi</div>
+          <div class="hero-badge">Now in Suhum</div>
           <h1>Book trusted services, <em>on your schedule</em></h1>
           <p>
             Fixora connects you with verified barbers, cleaners, and laundry
@@ -657,7 +666,13 @@
                 >Book a Service</a
               >
             </button>
-            <button class="btn-outline">Join as Provider</button>
+            <button class="btn-outline">
+              <a
+                href="{% url 'provider_application' %}"
+                style="color: black; text-decoration: none"
+                >Join as Provider</a
+              >
+            </button>
           </div>
           <div class="trust-row">
             <div class="trust-item">
@@ -754,7 +769,9 @@
         </div>
         <div class="services-grid">
           <div class="service-card">
-            <div class="sc-icon barber">✂</div>
+            <div class="sc-icon barber">
+              <i class="fa-solid fa-scissors"></i>
+            </div>
             <h3>Barbering</h3>
             <p>
               Haircuts, shaves, lineups and styling from skilled barbers. At the
@@ -766,7 +783,9 @@
             </div>
           </div>
           <div class="service-card">
-            <div class="sc-icon laundry">👕</div>
+            <div class="sc-icon laundry">
+              <i class="fa-solid fa-tshirt"></i>
+            </div>
             <h3>Laundry</h3>
             <p>
               Wash, dry, fold and ironing services. Drop off or schedule a
@@ -778,7 +797,9 @@
             </div>
           </div>
           <div class="service-card">
-            <div class="sc-icon cleaning">🧹</div>
+            <div class="sc-icon cleaning">
+              <i class="fa-solid fa-broom"></i>
+            </div>
             <h3>Cleaning</h3>
             <p>
               Home and office deep cleaning by professional, background-checked
@@ -862,7 +883,7 @@
           </div>
           <div class="why-grid">
             <div class="why-card">
-              <div class="why-icon">🛡</div>
+              <div class="why-icon"><i class="fa-solid fa-shield"></i></div>
               <div>
                 <h4>Verified providers</h4>
                 <p>
@@ -872,7 +893,12 @@
               </div>
             </div>
             <div class="why-card">
-              <div class="why-icon">📅</div>
+              <div class="why-icon">
+                <i
+                  class="fa-solid fa-calendar-days"
+                  style="color: rgb(48, 80, 132)"
+                ></i>
+              </div>
               <div>
                 <h4>Live availability</h4>
                 <p>
@@ -882,7 +908,9 @@
               </div>
             </div>
             <div class="why-card">
-              <div class="why-icon">⭐</div>
+              <div class="why-icon">
+                <i class="fa-solid fa-star" style="color: var(--gold)"></i>
+              </div>
               <div>
                 <h4>Ratings & reviews</h4>
                 <p>
@@ -892,7 +920,9 @@
               </div>
             </div>
             <div class="why-card">
-              <div class="why-icon">🔔</div>
+              <div class="why-icon">
+                <i class="fa-solid fa-bell" style="color: var(--gold)"></i>
+              </div>
               <div>
                 <h4>Reminders built in</h4>
                 <p>
@@ -912,7 +942,9 @@
         Join Fixora's growing network of verified professionals. Apply once, get
         booked consistently.
       </p>
-      <button class="btn-primary">Apply as a Provider</button>
+      <button class="btn-primary">
+        <a href="{% url 'provider_application' %}" style="color: var(--white); text-decoration: none;">Apply as a Provider</a>
+      </button>
     </section>
 
     <footer>

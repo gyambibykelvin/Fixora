@@ -1,0 +1,243 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Become a Fixora Provider</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+
+        font-family: Arial, sans-serif;
+
+        background: #f7f7f5;
+
+        color: #0b1d30;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 750px;
+
+        margin: 50px auto;
+      }
+
+      .card {
+        background: white;
+
+        border-radius: 14px;
+
+        padding: 35px;
+
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+      }
+
+      h1 {
+        margin-top: 0;
+
+        font-size: 30px;
+      }
+
+      .subtitle {
+        color: #6e7a85;
+
+        margin-bottom: 30px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+
+        font-weight: bold;
+
+        margin-bottom: 7px;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+
+        padding: 12px;
+
+        border: 1px solid #ddd;
+
+        border-radius: 8px;
+
+        font-size: 14px;
+      }
+
+      textarea {
+        min-height: 130px;
+
+        resize: vertical;
+      }
+
+      .help {
+        font-size: 12px;
+
+        color: #777;
+
+        margin-top: 5px;
+      }
+
+      .btn {
+        width: 100%;
+
+        padding: 13px;
+
+        border: none;
+
+        border-radius: 8px;
+
+        background: #0b1d30;
+
+        color: white;
+
+        font-size: 15px;
+
+        font-weight: bold;
+
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background: #162840;
+      }
+
+      .back {
+        display: inline-block;
+
+        margin-bottom: 20px;
+
+        color: #6e7a85;
+
+        text-decoration: none;
+      }
+
+      .message {
+        padding: 12px;
+
+        background: #fdecea;
+
+        color: #c0392b;
+
+        border-radius: 8px;
+
+        margin-bottom: 15px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <a href="/" class="back"> ← Back to Fixora </a>
+      <div class="card">
+        <h1>Become a Fixora Provider</h1>
+
+        <p class="subtitle">
+          Tell us about your service. Your application will be reviewed before
+          you can start accepting customers.
+        </p>
+
+        {% if messages %} {% for message in messages %}
+
+        <div class="message">{{ message }}</div>
+
+        {% endfor %} {% endif %}
+
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <!-- SERVICE TYPE -->
+
+          <div class="form-group">
+            <label for="service_type"> Service Category </label>
+
+            <select id="service_type" name="service_type" required>
+              <option value="">Select a service</option>
+
+              <option value="barbering">Barbering</option>
+
+              <option value="laundry">Laundry</option>
+
+              <option value="cleaning">Cleaning</option>
+            </select>
+          </div>
+
+          <!-- SERVICE MODE -->
+
+          <div class="form-group">
+            <label for="service_mode"> Service Mode </label>
+
+            <select id="service_mode" name="service_mode" required>
+              <option value="">Select service mode</option>
+
+              <option value="home">Home Service</option>
+
+              <option value="walk_in">Walk-in</option>
+            </select>
+          </div>
+
+          <!-- EXPERIENCE -->
+
+          <div class="form-group">
+            <label for="experience_years"> Years of Experience </label>
+
+            <input
+              type="number"
+              id="experience_years"
+              name="experience_years"
+              min="0"
+              required
+            />
+          </div>
+
+          <!-- BIO -->
+
+          <div class="form-group">
+            <label for="bio"> About Your Service </label>
+
+            <textarea
+              id="bio"
+              name="bio"
+              placeholder="Tell customers about your experience and the service you provide..."
+              required
+            ></textarea>
+          </div>
+
+          <!-- ID DOCUMENT -->
+
+          <div class="form-group">
+            <label for="id_document"> Identification Document </label>
+
+            <input
+              type="file"
+              id="id_document"
+              name="id_document"
+              accept="image/*"
+              required
+            />
+
+            <div class="help">
+              Upload a clear image of your identification document for
+              verification.
+            </div>
+          </div>
+
+          <button type="submit" class="btn">Submit Application</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

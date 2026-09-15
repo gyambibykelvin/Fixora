@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import User
 from booking.models import Booking
-from provider.models import provider
+from provider.models import Provider
 # Create your views here.
 
 #----------
@@ -126,17 +126,17 @@ def dashboard(request):
         {
             'name': 'Barbering',
             'slug': 'barbering',
-            'count': provider.objects.filter(service_type='barbering').count(),
+            'count': Provider.objects.filter(service_type='barbering').count(),
         },
         {
             'name': 'Laundry',
             'slug': 'laundry',
-            'count': provider.objects.filter(service_type='laundry').count(),
+            'count': Provider.objects.filter(service_type='laundry').count(),
         },
         {
             'name': 'Cleaning',
             'slug': 'cleaning',
-            'count': provider.objects.filter(service_type='cleaning').count(),
+            'count': Provider.objects.filter(service_type='cleaning').count(),
         },
     ]
 
