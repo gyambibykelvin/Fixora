@@ -137,39 +137,38 @@ def provider_application_status(request):
 
 @login_required
 def provider_dashboard(request):
-    try:
-        # Get the logged-in provider
-        provider = request.user.provider_profile
-    except Provider.DoesNotExist:
-        return redirect("core:landing")
-    
+    provider = Provider.objects.filter(user=request.user).first()
 
-   
-# User is not a provider
-    profile = Provider.objects.filter(
-        user=request.user
-    ).first()
-
-    if profile is None:
-
-        # If they have an approved application but provider
-        # wasn't created yet, send them to application status.
+    if provider is None:
         application = ProviderApplication.objects.filter(
             user=request.user
         ).first()
 
-        if application:
+        if application and application.status == ProviderApplication.Status.APPROVED:
+            provider = Provider.objects.create(
+                user=request.user,
+                full_name=request.user.full_name,
+                email=request.user.email,
+                phone_number=request.user.phone_number,
+                service_type=application.service_type,
+                service_mode=application.service_mode,
+                delivery_type=(
+                    'home_service'
+                    if application.service_mode == 'home'
+                    else 'pickup'
+                ),
+                address=request.user.address,
+                bio=application.bio,
+                working_hours='Not specified',
+            )
+        elif application:
             return redirect('provider_application_status')
-
-        return redirect('provider_application')
-
-   
+        else:
+            return redirect('provider_application')
 
 
     # All bookings belonging to this provider
-    bookings = Booking.objects.filter(provider=provider).order_by(
-        "-booking_date", "-booking_time"
-    )
+    bookings = Booking.objects.filter(provider=provider).order_by("-booking_date", "-booking_time")
 
     # Booking status groups
     pending_bookings = bookings.filter(status="pending")
@@ -186,7 +185,7 @@ def provider_dashboard(request):
     completed_count = completed_bookings.count()
 
     context = {
-        "provider": Provider,
+        "provider": provider,
         "profile": provider,
 
         # Bookings
@@ -205,4 +204,4 @@ def provider_dashboard(request):
         "completed_count": completed_count,
     }
 
-    return render(request, "provider_dashboard.html", context)
+    return render(request, "provider/provider_dashboard.html", context)

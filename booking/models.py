@@ -11,3 +11,5 @@ class Booking(models.Model):
     status = models.CharField(max_length=100)
     delivery_type =models.CharField(max_length=100)
     service_type = models.CharField(max_length=100)
+    booking_date = models.DateField(default="1900-01-01")
+    booking_time = models.TimeField(default="00:00:00")

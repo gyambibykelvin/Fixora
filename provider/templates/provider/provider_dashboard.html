@@ -13,6 +13,10 @@
       href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"
+    />
   </head>
   <body>
     <div class="layout">
@@ -30,36 +34,36 @@
           </button>
 
           <button class="side-link" onclick="switchPanel('bookings', this)">
-            <span class="side-icon">📅</span>
+            <span class="side-icon"><i class="fas fa-calendar-alt" style="color: rgb(71, 118, 210);"></i></span>
             Bookings {% if pending_count > 0 %}
             <span class="side-count"> {{ pending_count }} </span>
             {% endif %}
           </button>
 
           <button class="side-link" onclick="switchPanel('availability', this)">
-            <span class="side-icon">🕐</span>
+            <span class="side-icon"><i class="fas fa-clock" style="color: rgb(71, 118, 210);"></i></span>
             Availability
           </button>
 
           <button class="side-link" onclick="switchPanel('services', this)">
-            <span class="side-icon">✂️</span>
+            <span class="side-icon"><i class="fas fa-cut" style="color: rgb(154, 61, 56);"></i></span>
             My Services
           </button>
 
           <button class="side-link" onclick="switchPanel('reviews', this)">
-            <span class="side-icon">★</span>
+            <span class="side-icon"><i class="fas fa-star" style="color: rgb(255, 215, 0);"></i></span>
             Reviews
           </button>
 
           <div class="side-divider"></div>
 
           <button class="side-link" onclick="switchPanel('profile', this)">
-            <span class="side-icon">⚙</span>
+            <span class="side-icon"><i class="fas fa-cog" style="color: rgba(242, 242, 242, 0.789);"></i></span>
             Profile
           </button>
 
           <a class="side-link" href="/">
-            <span class="side-icon">←</span>
+            <span class="side-icon"><i class="fas fa-arrow-left"></i></span>
             Back to Fixora
           </a>
         </nav>
@@ -543,15 +547,13 @@
                     alt="{{ profile.full_name }}"
                   />
 
-                  {% else %} {{ profile.full_name|slice:":2"|upper }} {% endif
-                  %}
+                  {% else %} {{ profile.full_name|slice:":2"|upper }} {% endif%}
                 </div>
 
                 <div class="photo-name">{{ profile.full_name }}</div>
 
                 <div class="photo-type">
-                  {{ profile.get_service_type_display }} · {% if profile.status
-                  == "active" %} Active {% else %} Inactive {% endif %}
+                  {{ profile.get_service_type_display }} · {% if profile.status == "active" %} Active {% else %} Inactive {% endif %}
                 </div>
 
                 <div class="info-value" style="margin-top: 10px">

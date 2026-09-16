@@ -635,15 +635,15 @@
       <div class="nav-inner">
         <div class="logo">Fix<span>ora</span></div>
         <ul class="nav-links">
-          <li><a href="#">Services</a></li>
-          <li><a href="#">How it works</a></li>
+          <li><a href="#service-section">Services</a></li>
+          <li><a href="#how-section">How it works</a></li>
           <li><a href="#">Providers</a></li>
         </ul>
         <button class="nav-cta">
           <a
             href="{% url 'login' %}"
             style="color: white; text-decoration: none"
-            >Book a Service</a
+            >Login</a
           >
         </button>
       </div>
@@ -668,7 +668,7 @@
             </button>
             <button class="btn-outline">
               <a
-                href="{% url 'provider_application' %}"
+                href="{% url 'login' %}"
                 style="color: black; text-decoration: none"
                 >Join as Provider</a
               >
@@ -736,6 +736,7 @@
         border-top: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
       "
+      id="service-section"
     >
       <div class="section">
         <div class="section-label">Services</div>
@@ -814,7 +815,7 @@
       </div>
     </section>
 
-    <section class="how-bg">
+    <section class="how-bg" id="how-section">
       <div class="how-inner">
         <div class="section-label">How it works</div>
         <div
@@ -943,7 +944,11 @@
         booked consistently.
       </p>
       <button class="btn-primary">
-        <a href="{% url 'provider_application' %}" style="color: var(--white); text-decoration: none;">Apply as a Provider</a>
+        <a
+          href="{% url 'provider_application' %}"
+          style="color: var(--white); text-decoration: none"
+          >Apply as a Provider</a
+        >
       </button>
     </section>
 
@@ -985,8 +990,8 @@
           </div>
         </div>
         <div class="footer-bottom">
-          <span>© 2025 Fixora. All rights reserved.</span>
-          <span>Kumasi, Ghana</span>
+          <span>© 2026 Fixora. All rights reserved.</span>
+          <span>Suhum, Ghana</span>
         </div>
       </div>
     </footer>
