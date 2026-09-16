@@ -1,2 +1,15 @@
 Tomorrow Todos
-1. Why does a provider have two dashboard including the customer dashboard and provider's dashboard
+ Why does a provider have two dashboard including the customer dashboard and provider's dashboard - Done
+ Fix the login in page. It suppose to take the full width of the screen
+ Change the location to Suhum
+ Change the pleasantries to greet base on it time
+ Fix the booking page
+ Fix the heading of my bookings
+ Add a profile page to the customer dashboard
+ Make the provider dashboard editable not fixed
+ Display the pleasantries message to the right page
+ Add forgot password to the system
+ Connect 'Back to Fixora' to the customer dashboard rather than the landing page
+ Make a provider again if their recent application was rejected and go back to the application page
+ Prevent admin login from interrupting the user login
+ Implement logout button

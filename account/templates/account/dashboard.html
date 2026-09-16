@@ -1309,6 +1309,11 @@
           <a class="app-nav-link" href="{% url 'provider_application' %}"
             >Be a provider</a
           >
+          {% if user.provider_profile %}
+          <a class="app-nav-link" href="{% url 'provider_dashboard' %}"
+            >Provider Portal</a
+          >
+          {% endif %}
         </div>
         <div class="app-nav-right">
           <div class="notif-btn">
@@ -1320,7 +1325,7 @@
       </nav>
       <div class="dash-body">
         <div class="dash-greeting">
-          <h1>Good morning, {{ user.full_name|default:user.email }} ☀️</h1>
+          <h1>{{ greeting }}, {{ user.full_name|default:user.email }} ☀️</h1>
           <p>What would you like to book today?</p>
         </div>
         <div class="dash-stats">

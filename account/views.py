@@ -2,14 +2,15 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+
 from .models import User
 from booking.models import Booking
-from provider.models import Provider
+from provider.models import Provider, ProviderApplication
+import datetime
 # Create your views here.
 
-#----------
 #ROUTES: signup/
-#----------
+
 def signup_view(request):
     if request.method == "POST":
         full_name = request.POST.get("full_name")
@@ -50,9 +51,7 @@ def signup_view(request):
 
 
 
-#----------
 #ROUTES: login/
-#----------
 
 def login_view(request):
 
@@ -75,6 +74,18 @@ def login_view(request):
                 request.session.set_expiry(60 * 60 *24 * 30)
 
             messages.success(request, "You have successfully logged in.")
+
+            if Provider.objects.filter(user=user).exists():
+                return redirect("provider_dashboard")
+
+            application = ProviderApplication.objects.filter(user=user).first()
+            if application and application.status in {
+                ProviderApplication.Status.PENDING,
+                ProviderApplication.Status.APPROVED,
+                ProviderApplication.Status.REJECTED,
+            }:
+                return redirect("provider_application_status")
+
             return redirect("dashboard")
 
         
@@ -83,9 +94,8 @@ def login_view(request):
 
     return render(request, "account/login.html")
 
-#----------
+
 #ROUTES: logout/
-#----------
 @login_required
 def logout_view(request):
     logout(request)
@@ -140,6 +150,14 @@ def dashboard(request):
         },
     ]
 
+    now = datetime.datetime.now()
+    if now.hour < 12:
+            greeting = 'Good morning'
+    elif 12 <= now.hour < 18:
+            greeting= 'Good afternoon'
+    else:
+            greeting = 'Good evening'
+
     context = {
         'user': request.user,
         'total_bookings': bookings.count(),
@@ -148,6 +166,7 @@ def dashboard(request):
         'providers_used': providers_used,
         'service_cards': service_cards,
         'upcoming_bookings': upcoming_bookings[:5],
+        'greeting': greeting,
     }
 
     return render(request, 'account/dashboard.html', context)
