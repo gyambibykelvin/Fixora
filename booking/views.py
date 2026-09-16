@@ -39,6 +39,8 @@ def booking_view(request):
                 status='pending',
                 delivery_type=delivery_type,
                 service_type=service_type,
+                booking_date=service_date,
+                booking_time=timezone.now().time()  # Set to current time or allow user to select
             )
             
             messages.success(request, "Booking created successfully! Check your bookings for updates.")
