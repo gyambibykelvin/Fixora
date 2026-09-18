@@ -1,16 +1,19 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
+
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"
     />
+
     <style>
       :root {
         --navy: #0b1d30;
@@ -30,7 +33,6 @@
         --success-l: #e4f5ec;
         --danger: #c0392b;
         --danger-l: #fdecea;
-        --shadow: 0 2px 12px rgba(11, 29, 48, 0.07);
         --shadow-md: 0 4px 24px rgba(11, 29, 48, 0.1);
         --r: 10px;
         --r-lg: 14px;
@@ -38,23 +40,8 @@
         --font-d: "DM Serif Display", serif;
         --font-b: "Outfit", sans-serif;
       }
-      [data-theme="dark"] {
-        --bg: #0d1520;
-        --surface: #131f2e;
-        --surface-2: #1a2a3c;
-        --text: #e8edf3;
-        --sub: #8b9aab;
-        --muted: #56697a;
-        --border: #1e3048;
-        --border-2: #253c56;
-        --shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-        --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.4);
-        --gold-l: rgba(200, 150, 62, 0.15);
-        --success-l: rgba(26, 122, 74, 0.2);
-        --danger-l: rgba(192, 57, 43, 0.2);
-      }
 
-      /* ── RESET ──────────────────────────────── */
+      /* RESET */
       *,
       *::before,
       *::after {
@@ -62,104 +49,331 @@
         margin: 0;
         padding: 0;
       }
+
       html {
         font-size: 16px;
         scroll-behavior: smooth;
       }
+
       body {
         font-family: var(--font-b);
         background: var(--bg);
         color: var(--text);
         line-height: 1.6;
-        transition:
-          background 0.25s,
-          color 0.25s;
         min-height: 100vh;
       }
 
-      /* ── PAGE SWITCHER NAV ──────────────────── */
-      .pg-nav {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 200;
-        background: var(--navy);
-        padding: 0 24px;
+      /* NAVBAR */
+      .app-nav {
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        padding: 0 28px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        height: 48px;
-        gap: 8px;
+        height: 60px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
       }
-      .pg-nav-title {
+
+      .app-nav-logo {
         font-family: var(--font-d);
-        font-size: 16px;
-        color: #fff;
-        white-space: nowrap;
+        font-size: 20px;
+        color: var(--navy);
       }
-      .pg-nav-title span {
+
+      .app-nav-logo span {
         color: var(--gold);
       }
-      .pg-tabs {
+
+      .app-nav-links {
         display: flex;
         gap: 4px;
-        overflow-x: auto;
-        scrollbar-width: none;
       }
-      .pg-tabs::-webkit-scrollbar {
-        display: none;
-      }
-      .pg-tab {
-        padding: 6px 12px;
-        border-radius: 6px;
+
+      .app-nav-link {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--sub);
+        padding: 7px 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.15s;
+        cursor: pointer;
         border: none;
         background: transparent;
-        color: rgba(255, 255, 255, 0.5);
         font-family: var(--font-b);
-        font-size: 12px;
-        font-weight: 500;
-        cursor: pointer;
-        white-space: nowrap;
-        transition: all 0.15s;
       }
-      .pg-tab:hover {
-        background: rgba(255, 255, 255, 0.08);
-        color: rgba(255, 255, 255, 0.8);
+
+      .app-nav-link:hover,
+      .app-nav-link.active {
+        background: var(--surface-2);
+        color: var(--text);
       }
-      .pg-tab.active {
-        background: var(--gold);
-        color: #fff;
+
+      .app-nav-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
       }
-      .theme-btn {
-        width: 32px;
-        height: 32px;
+
+      .notif-btn {
+        width: 36px;
+        height: 36px;
         border-radius: 50%;
-        border: none;
-        background: rgba(255, 255, 255, 0.1);
-        color: rgba(255, 255, 255, 0.7);
-        cursor: pointer;
+        border: 1px solid var(--border);
+        background: var(--surface);
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-shrink: 0;
-        transition: background 0.15s;
+        cursor: pointer;
+        position: relative;
+        color: var(--sub);
+        font-size: 16px;
+      }
+
+      .notif-dot {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--gold);
+        border: 1.5px solid var(--surface);
+      }
+
+      .avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--navy);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 600;
+        color: #fff;
+        cursor: pointer;
+        letter-spacing: 0.5px;
+      }
+
+      /* DASHBOARD */
+      .dash-body {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 28px 24px 60px;
+      }
+
+      .dash-greeting {
+        margin-bottom: 28px;
+      }
+
+      .dash-greeting h1 {
+        font-family: var(--font-d);
+        font-size: 32px;
+        line-height: 1.2;
+        margin-bottom: 4px;
+      }
+
+      .dash-greeting p {
         font-size: 15px;
-      }
-      .theme-btn:hover {
-        background: rgba(255, 255, 255, 0.2);
+        color: var(--sub);
       }
 
-      /* ── PAGE WRAPPER ───────────────────────── */
-      .page {
-        display: none;
-        min-height: 100vh;
-      }
-      .page.active {
-        display: block;
+      .dash-stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        margin-bottom: 28px;
       }
 
-      /* ── COMMON COMPONENTS ──────────────────── */
+      .stat-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-lg);
+        padding: 18px 20px;
+      }
+
+      .stat-val {
+        font-family: var(--font-d);
+        font-size: 30px;
+        line-height: 1;
+        margin-bottom: 4px;
+      }
+
+      .stat-label {
+        font-size: 12px;
+        color: var(--sub);
+        font-weight: 500;
+      }
+
+      .stat-card.gold-card {
+        background: var(--navy);
+        border-color: var(--navy);
+      }
+
+      .stat-card.gold-card .stat-val,
+      .stat-card.gold-card .stat-label {
+        color: #fff;
+      }
+
+      .stat-card.gold-card .stat-label {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .dash-section-hd {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+
+      .dash-section-hd h2 {
+        font-family: var(--font-d);
+        font-size: 20px;
+      }
+
+      /* SERVICES */
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-bottom: 32px;
+      }
+
+      .svc-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-lg);
+        padding: 20px;
+        cursor: pointer;
+        transition: all 0.18s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .svc-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        border-radius: var(--r-lg) var(--r-lg) 0 0;
+      }
+
+      .svc-card.barber::before {
+        background: #2563eb;
+      }
+
+      .svc-card.laundry::before {
+        background: #16a34a;
+      }
+
+      .svc-card.cleaning::before {
+        background: #ea580c;
+      }
+
+      .svc-card:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+      }
+
+      .svc-icon {
+        font-size: 26px;
+        margin-bottom: 10px;
+      }
+
+      .svc-name {
+        font-weight: 600;
+        font-size: 15px;
+        margin-bottom: 3px;
+      }
+
+      .svc-count {
+        font-size: 12px;
+        color: var(--sub);
+      }
+
+      .svc-arrow {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px;
+        color: var(--muted);
+      }
+
+      /* UPCOMING BOOKINGS */
+      .upcoming-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 32px;
+      }
+
+      .booking-row {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-lg);
+        padding: 16px 18px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .booking-date-block {
+        width: 48px;
+        height: 52px;
+        border-radius: var(--r);
+        background: var(--gold-l);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .booking-date-day {
+        font-family: var(--font-d);
+        font-size: 20px;
+        color: var(--gold-d);
+        line-height: 1;
+      }
+
+      .booking-date-mon {
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--gold-d);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .booking-info {
+        flex: 1;
+      }
+
+      .booking-title {
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 2px;
+      }
+
+      .booking-meta {
+        font-size: 12px;
+        color: var(--sub);
+      }
+
+      .booking-row-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 6px;
+      }
+
+      /* BUTTONS */
       .btn {
         display: inline-flex;
         align-items: center;
@@ -175,41 +389,27 @@
         transition: all 0.18s;
         text-decoration: none;
       }
-      .btn-primary {
-        background: var(--navy);
-        color: #fff;
-      }
-      .btn-primary:hover {
-        background: var(--navy-2);
-      }
+
       .btn-gold {
         background: var(--gold);
         color: #fff;
       }
+
       .btn-gold:hover {
         background: var(--gold-d);
       }
+
       .btn-outline {
         background: transparent;
         color: var(--navy);
         border: 1.5px solid var(--border-2);
       }
+
       .btn-outline:hover {
         border-color: var(--navy);
         background: var(--surface-2);
       }
-      [data-theme="dark"] .btn-outline {
-        color: var(--text);
-        border-color: var(--border-2);
-      }
-      .btn-sm {
-        padding: 8px 16px;
-        font-size: 13px;
-      }
-      .btn-full {
-        width: 100%;
-        display: flex;
-      }
+
       .badge {
         display: inline-flex;
         align-items: center;
@@ -219,945 +419,16 @@
         padding: 3px 9px;
         border-radius: 100px;
       }
+
       .badge-confirmed {
         background: #e6f1fb;
         color: #0c447c;
       }
-      .badge-completed {
-        background: var(--success-l);
-        color: var(--success);
-      }
-      .badge-cancelled {
-        background: var(--danger-l);
-        color: var(--danger);
-      }
-      .badge-pending {
-        background: var(--gold-l);
-        color: var(--gold-d);
-      }
-      [data-theme="dark"] .badge-confirmed {
-        background: rgba(12, 68, 124, 0.3);
-        color: #7bb8f5;
-      }
-      [data-theme="dark"] .badge-completed {
-        background: rgba(26, 122, 74, 0.3);
-        color: #5dca8e;
-      }
-      .card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: var(--r-lg);
-        padding: 20px;
-      }
-      .divider {
-        border: none;
-        border-top: 1px solid var(--border);
-        margin: 16px 0;
-      }
-      .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        margin-bottom: 16px;
-      }
-      .form-label {
-        font-size: 13px;
-        font-weight: 500;
-        color: var(--text);
-      }
-      .form-input {
-        font-family: var(--font-b);
-        font-size: 14px;
-        padding: 11px 14px;
-        border: 1px solid var(--border);
-        border-radius: var(--r);
-        background: var(--surface);
-        color: var(--text);
-        transition: border-color 0.15s;
-        outline: none;
-      }
-      .form-input:focus {
-        border-color: var(--gold);
-      }
-      .form-input::placeholder {
-        color: var(--muted);
-      }
-      [data-theme="dark"] .form-input {
-        background: var(--surface-2);
-      }
-      .form-hint {
-        font-size: 12px;
-        color: var(--sub);
-      }
-      .section-label {
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.6px;
-        text-transform: uppercase;
-        color: var(--gold);
-        margin-bottom: 8px;
-      }
-      .section-title {
-        font-family: var(--font-d);
-        font-size: 28px;
-        line-height: 1.2;
-        margin-bottom: 8px;
-      }
 
-      /* ── INNER NAVBAR (for authenticated pages) ─ */
-      .app-nav {
-        background: var(--surface);
-        border-bottom: 1px solid var(--border);
-        padding: 0 28px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 60px;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-      }
-      .app-nav-logo {
-        font-family: var(--font-d);
-        font-size: 20px;
-        color: var(--navy);
-      }
-      [data-theme="dark"] .app-nav-logo {
-        color: var(--text);
-      }
-      .app-nav-logo span {
-        color: var(--gold);
-      }
-      .app-nav-links {
-        display: flex;
-        gap: 4px;
-      }
-      .app-nav-link {
-        font-size: 13px;
-        font-weight: 500;
-        color: var(--sub);
-        padding: 7px 14px;
-        border-radius: 8px;
-        text-decoration: none;
-        transition: all 0.15s;
-        cursor: pointer;
-        border: none;
-        background: transparent;
-        font-family: var(--font-b);
-      }
-      .app-nav-link:hover,
-      .app-nav-link.active {
-        background: var(--surface-2);
-        color: var(--text);
-      }
-      .app-nav-right {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-      .notif-btn {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        border: 1px solid var(--border);
-        background: var(--surface);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        position: relative;
-        color: var(--sub);
-        font-size: 16px;
-      }
-      .notif-dot {
-        position: absolute;
-        top: 6px;
-        right: 6px;
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: var(--gold);
-        border: 1.5px solid var(--surface);
-      }
-      .avatar {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: var(--navy);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 13px;
-        font-weight: 600;
-        color: #fff;
-        cursor: pointer;
-        letter-spacing: 0.5px;
-      }
-      [data-theme="dark"] .avatar {
-        background: var(--gold);
-      }
-
-      /* ═══════════════════════════════════════════
-   DASHBOARD PAGE
-═══════════════════════════════════════════ */
-      .dash-body {
-        max-width: 1040px;
-        margin: 0 auto;
-        padding: 28px 24px 60px;
-      }
-      .dash-greeting {
-        margin-bottom: 28px;
-      }
-      .dash-greeting h1 {
-        font-family: var(--font-d);
-        font-size: 32px;
-        line-height: 1.2;
-        margin-bottom: 4px;
-      }
-      .dash-greeting p {
-        font-size: 15px;
-        color: var(--sub);
-      }
-      .dash-stats {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 14px;
-        margin-bottom: 28px;
-      }
-      .stat-card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: var(--r-lg);
-        padding: 18px 20px;
-      }
-      .stat-val {
-        font-family: var(--font-d);
-        font-size: 30px;
-        line-height: 1;
-        margin-bottom: 4px;
-      }
-      .stat-label {
-        font-size: 12px;
-        color: var(--sub);
-        font-weight: 500;
-      }
-      .stat-card.gold-card {
-        background: var(--navy);
-        border-color: var(--navy);
-      }
-      .stat-card.gold-card .stat-val,
-      .stat-card.gold-card .stat-label {
-        color: #fff;
-      }
-      .stat-card.gold-card .stat-label {
-        color: rgba(255, 255, 255, 0.6);
-      }
-      .dash-section-hd {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 16px;
-      }
-      .dash-section-hd h2 {
-        font-family: var(--font-d);
-        font-size: 20px;
-      }
-      .services-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 14px;
-        margin-bottom: 32px;
-      }
-      .svc-card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: var(--r-lg);
-        padding: 20px;
-        cursor: pointer;
-        transition: all 0.18s;
-        position: relative;
-        overflow: hidden;
-      }
-      .svc-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        border-radius: var(--r-lg) var(--r-lg) 0 0;
-      }
-      .svc-card.barber::before {
-        background: #2563eb;
-      }
-      .svc-card.laundry::before {
-        background: #16a34a;
-      }
-      .svc-card.cleaning::before {
-        background: #ea580c;
-      }
-      .svc-card:hover {
-        box-shadow: var(--shadow-md);
-        transform: translateY(-2px);
-      }
-      .svc-icon {
-        font-size: 26px;
-        margin-bottom: 10px;
-      }
-      .svc-name {
-        font-weight: 600;
-        font-size: 15px;
-        margin-bottom: 3px;
-      }
-      .svc-count {
-        font-size: 12px;
-        color: var(--sub);
-      }
-      .svc-arrow {
-        position: absolute;
-        right: 16px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 18px;
-        color: var(--muted);
-      }
-      .upcoming-list {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        margin-bottom: 32px;
-      }
-      .booking-row {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: var(--r-lg);
-        padding: 16px 18px;
-        display: flex;
-        align-items: center;
-        gap: 16px;
-      }
-      .booking-date-block {
-        width: 48px;
-        height: 52px;
-        border-radius: var(--r);
-        background: var(--gold-l);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-      }
-      .booking-date-day {
-        font-family: var(--font-d);
-        font-size: 20px;
-        color: var(--gold-d);
-        line-height: 1;
-      }
-      .booking-date-mon {
-        font-size: 10px;
-        font-weight: 600;
-        color: var(--gold-d);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-      .booking-info {
-        flex: 1;
-      }
-      .booking-title {
-        font-weight: 600;
-        font-size: 14px;
-        margin-bottom: 2px;
-      }
-      .booking-meta {
-        font-size: 12px;
-        color: var(--sub);
-      }
-      .booking-row-right {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 6px;
-      }
-
-      /* ═══════════════════════════════════════════
-   AUTH PAGES (signup + login)
-═══════════════════════════════════════════ */
-      .auth-wrap {
-        min-height: calc(100vh - 48px);
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-      }
-      .auth-brand {
-        background: var(--navy);
-        padding: 48px 52px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-      .auth-brand-logo {
-        font-family: var(--font-d);
-        font-size: 26px;
-        color: #fff;
-        margin-bottom: auto;
-      }
-      .auth-brand-logo span {
-        color: var(--gold);
-      }
-      .auth-brand-hero {
-        margin: auto 0;
-      }
-      .auth-brand-hero h2 {
-        font-family: var(--font-d);
-        font-size: 38px;
-        color: #fff;
-        line-height: 1.2;
-        margin-bottom: 14px;
-      }
-      .auth-brand-hero h2 em {
-        font-style: italic;
-        color: var(--gold);
-      }
-      .auth-brand-hero p {
-        font-size: 15px;
-        color: rgba(255, 255, 255, 0.55);
-        line-height: 1.7;
-        max-width: 340px;
-      }
-      .auth-trust {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin-top: 32px;
-      }
-      .auth-trust-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 13px;
-        color: rgba(255, 255, 255, 0.6);
-      }
-      .auth-trust-dot {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--gold);
-        flex-shrink: 0;
-      }
-      .auth-brand-foot {
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.3);
-      }
-      .auth-form-wrap {
-        background: var(--bg);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 40px 48px;
-      }
-      .auth-form-inner {
-        width: 100%;
-        max-width: 400px;
-      }
-      .auth-form-inner h1 {
-        font-family: var(--font-d);
-        font-size: 28px;
-        margin-bottom: 4px;
-      }
-      .auth-form-inner p {
-        font-size: 14px;
-        color: var(--sub);
-        margin-bottom: 28px;
-      }
-      .auth-alt {
-        text-align: center;
-        font-size: 13px;
-        color: var(--sub);
-        margin-top: 20px;
-      }
-      .auth-alt a {
-        color: var(--gold);
-        font-weight: 500;
-        text-decoration: none;
-        cursor: pointer;
-      }
-      .pw-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-      }
-
-      /* ═══════════════════════════════════════════
-   PROFILE PAGE
-═══════════════════════════════════════════ */
-      .profile-body {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 32px 24px 60px;
-      }
-      .profile-header {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: var(--r-xl);
-        padding: 28px;
-        display: flex;
-        align-items: center;
-        gap: 24px;
-        margin-bottom: 20px;
-      }
-      .profile-avatar-lg {
-        width: 72px;
-        height: 72px;
-        border-radius: 50%;
-        background: var(--navy);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: var(--font-d);
-        font-size: 26px;
-        color: #fff;
-        flex-shrink: 0;
-      }
-      [data-theme="dark"] .profile-avatar-lg {
-        background: var(--gold);
-      }
-      .profile-name {
-        font-family: var(--font-d);
-        font-size: 26px;
-        margin-bottom: 2px;
-      }
-      .profile-email {
-        font-size: 14px;
-        color: var(--sub);
-      }
-      .profile-since {
-        font-size: 12px;
-        color: var(--muted);
-        margin-top: 4px;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-      }
-      .verified-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        background: var(--success-l);
-        color: var(--success);
-        font-size: 11px;
-        font-weight: 600;
-        padding: 3px 10px;
-        border-radius: 100px;
-        margin-left: 8px;
-      }
-      .profile-tabs {
-        display: flex;
-        gap: 4px;
-        background: var(--surface-2);
-        border-radius: var(--r);
-        padding: 4px;
-        margin-bottom: 20px;
-      }
-      .profile-tab {
-        flex: 1;
-        padding: 9px;
-        text-align: center;
-        font-size: 13px;
-        font-weight: 500;
-        color: var(--sub);
-        border-radius: 8px;
-        cursor: pointer;
-        border: none;
-        background: transparent;
-        font-family: var(--font-b);
-        transition: all 0.15s;
-      }
-      .profile-tab.active {
-        background: var(--surface);
-        color: var(--text);
-        box-shadow: var(--shadow);
-      }
-      .profile-panel {
-        display: none;
-      }
-      .profile-panel.active {
-        display: block;
-      }
-      .info-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 14px;
-        margin-bottom: 20px;
-      }
-      .info-item {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: var(--r-lg);
-        padding: 16px;
-      }
-      .info-item-label {
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-        color: var(--muted);
-        margin-bottom: 5px;
-      }
-      .info-item-val {
-        font-size: 15px;
-        font-weight: 500;
-      }
-      .booking-hist {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-      .hist-row {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: var(--r-lg);
-        padding: 14px 16px;
-        display: flex;
-        align-items: center;
-        gap: 14px;
-      }
-      .hist-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: var(--r);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 18px;
-        flex-shrink: 0;
-      }
-      .hist-icon.barber {
-        background: #eff6ff;
-      }
-      .hist-icon.laundry {
-        background: #f0fdf4;
-      }
-      .hist-icon.cleaning {
-        background: #fff7ed;
-      }
-
-      /* ═══════════════════════════════════════════
-   BOOKING PAGE
-═══════════════════════════════════════════ */
-      .booking-body {
-        max-width: 960px;
-        margin: 0 auto;
-        padding: 28px 24px 60px;
-        display: grid;
-        grid-template-columns: 1fr 320px;
-        gap: 24px;
-        align-items: start;
-      }
-      .booking-main {
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-      }
-      .booking-card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: var(--r-xl);
-        overflow: hidden;
-      }
-      .bk-head {
-        padding: 18px 20px;
-        border-bottom: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        gap: 14px;
-      }
-      .bk-step {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background: var(--navy);
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 12px;
-        font-weight: 600;
-        flex-shrink: 0;
-      }
-      [data-theme="dark"] .bk-step {
-        background: var(--gold);
-      }
-      .bk-title {
-        font-weight: 600;
-        font-size: 15px;
-      }
-      .bk-body {
-        padding: 20px;
-      }
-      .provider-strip {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-      }
-      .prov-avatar {
-        width: 52px;
-        height: 52px;
-        border-radius: 50%;
-        background: var(--navy);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
-        font-weight: 600;
-        color: #fff;
-        flex-shrink: 0;
-      }
-      .prov-name {
-        font-weight: 600;
-        font-size: 16px;
-        margin-bottom: 2px;
-      }
-      .prov-meta {
-        font-size: 13px;
-        color: var(--sub);
-      }
-      .prov-rating {
-        color: var(--gold);
-        font-weight: 600;
-        font-size: 13px;
-      }
-      .svc-options {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-      .svc-opt {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding: 14px 16px;
-        border: 1.5px solid var(--border);
-        border-radius: var(--r-lg);
-        cursor: pointer;
-        transition: all 0.15s;
-      }
-      .svc-opt:hover {
-        border-color: var(--gold);
-      }
-      .svc-opt.selected {
-        border-color: var(--gold);
-        background: var(--gold-l);
-      }
-      .svc-opt-radio {
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        border: 2px solid var(--border-2);
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.15s;
-      }
-      .svc-opt.selected .svc-opt-radio {
-        border-color: var(--gold);
-        background: var(--gold);
-      }
-      .svc-opt.selected .svc-opt-radio::after {
-        content: "";
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: #fff;
-      }
-      .svc-opt-info {
-        flex: 1;
-      }
-      .svc-opt-name {
-        font-weight: 600;
-        font-size: 14px;
-      }
-      .svc-opt-dur {
-        font-size: 12px;
-        color: var(--sub);
-      }
-      .svc-opt-price {
-        font-weight: 600;
-        font-size: 15px;
-      }
-      .date-row {
-        display: flex;
-        gap: 10px;
-        overflow-x: auto;
-        padding-bottom: 4px;
-        scrollbar-width: none;
-      }
-      .date-chip {
-        flex-shrink: 0;
-        padding: 10px 14px;
-        border: 1.5px solid var(--border);
-        border-radius: var(--r-lg);
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.15s;
-        min-width: 56px;
-      }
-      .date-chip:hover {
-        border-color: var(--gold);
-      }
-      .date-chip.selected {
-        border-color: var(--gold);
-        background: var(--gold-l);
-      }
-      .date-chip-day {
-        font-size: 10px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.4px;
-        color: var(--sub);
-      }
-      .date-chip.selected .date-chip-day {
-        color: var(--gold-d);
-      }
-      .date-chip-num {
-        font-family: var(--font-d);
-        font-size: 20px;
-        line-height: 1.2;
-      }
-      .time-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 8px;
-      }
-      .time-chip {
-        padding: 10px 0;
-        border: 1.5px solid var(--border);
-        border-radius: var(--r);
-        text-align: center;
-        font-size: 13px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.15s;
-      }
-      .time-chip:hover {
-        border-color: var(--gold);
-      }
-      .time-chip.selected {
-        background: var(--navy);
-        color: #fff;
-        border-color: var(--navy);
-      }
-      .time-chip.taken {
-        opacity: 0.4;
-        pointer-events: none;
-        text-decoration: line-through;
-      }
-      .delivery-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-      }
-      .delivery-opt {
-        padding: 16px;
-        border: 1.5px solid var(--border);
-        border-radius: var(--r-lg);
-        cursor: pointer;
-        transition: all 0.15s;
-        text-align: center;
-      }
-      .delivery-opt:hover {
-        border-color: var(--gold);
-      }
-      .delivery-opt.selected {
-        border-color: var(--gold);
-        background: var(--gold-l);
-      }
-      .delivery-opt-icon {
-        font-size: 22px;
-        margin-bottom: 6px;
-      }
-      .delivery-opt-name {
-        font-weight: 600;
-        font-size: 14px;
-      }
-      .delivery-opt-sub {
-        font-size: 12px;
-        color: var(--sub);
-      }
-      .bk-summary {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: var(--r-xl);
-        padding: 20px;
-        position: sticky;
-        top: 116px;
-      }
-      .summary-title {
-        font-family: var(--font-d);
-        font-size: 18px;
-        margin-bottom: 16px;
-      }
-      .summary-rows {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin-bottom: 16px;
-      }
-      .sum-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .sum-label {
-        font-size: 13px;
-        color: var(--sub);
-      }
-      .sum-val {
-        font-size: 13px;
-        font-weight: 500;
-      }
-      .sum-total {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-top: 14px;
-        border-top: 1px solid var(--border);
-        margin-bottom: 16px;
-      }
-      .sum-total-label {
-        font-weight: 600;
-      }
-      .sum-total-val {
-        font-family: var(--font-d);
-        font-size: 20px;
-        color: var(--gold);
-      }
-      .cash-note {
-        background: var(--gold-l);
-        border-radius: var(--r);
-        padding: 10px 12px;
-        font-size: 12px;
-        color: var(--gold-d);
-        display: flex;
-        align-items: flex-start;
-        gap: 8px;
-        margin-bottom: 16px;
-      }
-
-      a.pg-tab {
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-      }
-
-      /* ═══════════════════════════════════════════
-   BOOKING MODAL OVERLAY
-═══════════════════════════════════════════ */
+      /* BOOKING MODAL */
       .modal-overlay {
         position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        inset: 0;
         background: rgba(0, 0, 0, 0.4);
         backdrop-filter: blur(3px);
         z-index: 300;
@@ -1170,10 +441,12 @@
         align-items: center;
         justify-content: center;
       }
+
       .modal-overlay.active {
         opacity: 1;
         visibility: visible;
       }
+
       .modal-content {
         background: var(--surface);
         border-radius: var(--r-xl);
@@ -1185,9 +458,11 @@
         transform: scale(0.95) translateY(20px);
         transition: transform 0.25s;
       }
+
       .modal-overlay.active .modal-content {
         transform: scale(1) translateY(0);
       }
+
       .modal-header {
         padding: 24px;
         border-bottom: 1px solid var(--border);
@@ -1196,11 +471,12 @@
         justify-content: space-between;
         gap: 16px;
       }
+
       .modal-title {
         font-family: var(--font-d);
         font-size: 22px;
-        margin: 0;
       }
+
       .modal-close-btn {
         width: 32px;
         height: 32px;
@@ -1214,20 +490,49 @@
         font-size: 18px;
         transition: background 0.15s;
       }
+
       .modal-close-btn:hover {
         background: var(--border);
       }
+
       .modal-body {
         padding: 24px;
       }
+
       .booking-form {
         display: flex;
         flex-direction: column;
         gap: 20px;
       }
-      .form-group.full {
-        margin-bottom: 0;
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
       }
+
+      .form-label {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text);
+      }
+
+      .form-input {
+        font-family: var(--font-b);
+        font-size: 14px;
+        padding: 11px 14px;
+        border: 1px solid var(--border);
+        border-radius: var(--r);
+        background: var(--surface);
+        color: var(--text);
+        transition: border-color 0.15s;
+        outline: none;
+      }
+
+      .form-input:focus {
+        border-color: var(--gold);
+      }
+
       .providers-list {
         display: flex;
         flex-direction: column;
@@ -1235,6 +540,7 @@
         max-height: 400px;
         overflow-y: auto;
       }
+
       .provider-option {
         padding: 12px 14px;
         border: 1.5px solid var(--border);
@@ -1245,14 +551,13 @@
         align-items: center;
         gap: 12px;
       }
-      .provider-option:hover {
-        border-color: var(--gold);
-        background: var(--gold-l);
-      }
+
+      .provider-option:hover,
       .provider-option.selected {
         border-color: var(--gold);
         background: var(--gold-l);
       }
+
       .provider-radio {
         width: 16px;
         height: 16px;
@@ -1263,10 +568,12 @@
         align-items: center;
         justify-content: center;
       }
+
       .provider-option.selected .provider-radio {
         border-color: var(--gold);
         background: var(--gold);
       }
+
       .provider-option.selected .provider-radio::after {
         content: "";
         width: 4px;
@@ -1274,77 +581,161 @@
         border-radius: 50%;
         background: #fff;
       }
+
       .provider-info {
         flex: 1;
       }
+
       .provider-info-name {
         font-weight: 600;
         font-size: 14px;
         margin-bottom: 2px;
       }
+
       .provider-info-rating {
         font-size: 12px;
         color: var(--sub);
       }
+
       .modal-actions {
         display: flex;
         gap: 12px;
         padding-top: 12px;
         border-top: 1px solid var(--border);
       }
+
       .modal-actions .btn {
         flex: 1;
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 800px) {
+        .app-nav-links {
+          display: none;
+        }
+
+        .dash-stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .services-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 500px) {
+        .app-nav {
+          padding: 0 16px;
+        }
+
+        .dash-body {
+          padding: 24px 16px 40px;
+        }
+
+        .dash-greeting h1 {
+          font-size: 28px;
+        }
+
+        .dash-stats {
+          gap: 10px;
+        }
+
+        .stat-card {
+          padding: 16px;
+        }
+
+        .booking-row {
+          padding: 14px;
+        }
+
+        .booking-row-right {
+          display: none;
+        }
+
+        .modal-content {
+          width: 95%;
+        }
+
+        .modal-header,
+        .modal-body {
+          padding: 20px;
+        }
       }
     </style>
 
     <title>Fixora - Dashboard</title>
   </head>
+
   <body>
-    <div id="page-dashboard" class="page active">
+    <div id="page-dashboard">
       <nav class="app-nav">
         <div class="app-nav-logo">Fix<span>ora</span></div>
+
         <div class="app-nav-links">
-          <a class="app-nav-link active" href="{% url 'dashboard' %}">Home</a>
-          <a class="app-nav-link" href="{% url 'my_bookings' %}">My Bookings</a>
-          <a class="app-nav-link" href="{% url 'provider_application' %}"
-            >Be a provider</a
-          >
+          <a class="app-nav-link active" href="{% url 'dashboard' %}">
+            Home
+          </a>
+
+          <a class="app-nav-link" href="{% url 'my_bookings' %}">
+            My Bookings
+          </a>
+
+          <a class="app-nav-link" href="{% url 'provider_application' %}">
+            Be a provider
+          </a>
+
           {% if user.provider_profile %}
-          <a class="app-nav-link" href="{% url 'provider_dashboard' %}"
-            >Provider Portal</a
-          >
+            <a class="app-nav-link" href="{% url 'provider_dashboard' %}">
+              Provider Portal
+            </a>
           {% endif %}
         </div>
+
         <div class="app-nav-right">
           <div class="notif-btn">
             <i class="fas fa-bell" style="color: var(--gold)"></i>
             <div class="notif-dot"></div>
           </div>
-          <div class="avatar">KA</div>
+
+        <div class="app-nav-right">
+          <div class="logout-btn">
+            <a href="{% url 'logout' %}">
+              <i class="fas fa-sign-out-alt" style="color: red"></i>
+            </a>
+          </div>
+
+          <div class="avatar">{{ user.first_name|first }}{{ user.last_name|first }}</div>
         </div>
       </nav>
+
       <div class="dash-body">
         <div class="dash-greeting">
-          <h1>{{ greeting }}, {{ user.full_name|default:user.email }} ☀️</h1>
+          <h1>
+            {{ greeting }}, {{ user.full_name|default:user.email }} <i class="fas fa-hand-wave"></i>
+          </h1>
           <p>What would you like to book today?</p>
         </div>
+
         <div class="dash-stats">
           <div class="stat-card gold-card">
             <div class="stat-val">{{ total_bookings }}</div>
             <div class="stat-label">Total Bookings</div>
           </div>
+
           <div class="stat-card">
             <div class="stat-val" style="color: var(--gold)">
               {{ upcoming_count }}
             </div>
             <div class="stat-label">Upcoming</div>
           </div>
+
           <div class="stat-card">
             <div class="stat-val" style="color: var(--success)">
               {{ completed_count }}
             </div>
             <div class="stat-label">Completed</div>
           </div>
+
           <div class="stat-card">
             <div class="stat-val">{{ providers_used }}</div>
             <div class="stat-label">Providers Used</div>
@@ -1354,29 +745,39 @@
         <div class="dash-section-hd">
           <h2>Book a Service</h2>
         </div>
-        <div class="services-grid" style="margin-bottom: 32px">
+
+        <div class="services-grid">
           {% for service in service_cards %}
-          <div
-            class="svc-card {{ service.slug }}"
-            onclick="openBookingModal('{{ service.slug }}')"
-          >
-            <div class="svc-icon">{{ service.icon }}</div>
-            <div class="svc-name">{{ service.name }}</div>
-            <div class="svc-count">{{ service.count }} providers near you</div>
-            <div class="svc-arrow">›</div>
-          </div>
+            <div
+              class="svc-card {{ service.slug }}"
+              onclick="openBookingModal('{{ service.slug }}')"
+            >
+              <div class="svc-icon">{{ service.icon }}</div>
+              <div class="svc-name">{{ service.name }}</div>
+              <div class="svc-count">
+                {{ service.count }} providers near you
+              </div>
+              <div class="svc-arrow">›</div>
+            </div>
           {% empty %}
-          <div class="svc-card barber" onclick="openBookingModal('barbering')">
-            <div class="svc-icon"><i class="fa-solid fa-scissors"></i></div>
-            <div class="svc-name">Barbering</div>
-            <div class="svc-count">No providers available yet</div>
-            <div class="svc-arrow">›</div>
-          </div>
+            <div
+              class="svc-card barber"
+              onclick="openBookingModal('barbering')"
+            >
+              <div class="svc-icon">
+                <i class="fa-solid fa-scissors"></i>
+              </div>
+
+              <div class="svc-name">Barbering</div>
+              <div class="svc-count">No providers available yet</div>
+              <div class="svc-arrow">›</div>
+            </div>
           {% endfor %}
         </div>
 
         <div class="dash-section-hd">
           <h2>Upcoming Appointments</h2>
+
           <a
             style="
               font-size: 13px;
@@ -1386,60 +787,86 @@
               cursor: pointer;
             "
             onclick="location.href = 'profile.html'"
-            >View all →</a
           >
+            View all →
+          </a>
         </div>
+
         <div class="upcoming-list">
           {% for booking in upcoming_bookings %}
-          <div class="booking-row">
-            <div class="booking-date-block">
-              <div class="booking-date-day">{{ booking.id }}</div>
-              <div class="booking-date-mon">{{ booking.status|title }}</div>
-            </div>
-            <div class="booking-info">
-              <div class="booking-title">{{ booking.service }}</div>
-              <div class="booking-meta">
-                {{ booking.provider.full_name }} · {{
-                booking.delivery_type|title }} · {{ booking.duration }}
+            <div class="booking-row">
+              <div class="booking-date-block">
+                <div class="booking-date-day">{{ booking.id }}</div>
+                <div class="booking-date-mon">
+                  {{ booking.status|title }}
+                </div>
+              </div>
+
+              <div class="booking-info">
+                <div class="booking-title">
+                  {{ booking.service }}
+                </div>
+
+                <div class="booking-meta">
+                  {{ booking.provider.full_name }} ·
+                  {{ booking.service_mode|title }} ·
+                  {{ booking.duration }}
+                </div>
+              </div>
+
+              <div class="booking-row-right">
+                <span class="badge badge-confirmed">
+                  {{ booking.status|title }}
+                </span>
+
+                <span style="font-size: 12px; color: var(--sub)">
+                  {{ booking.service_type|title }}
+                </span>
               </div>
             </div>
-            <div class="booking-row-right">
-              <span class="badge badge-confirmed"
-                >{{ booking.status|title }}</span
-              >
-              <span style="font-size: 12px; color: var(--sub)"
-                >{{ booking.service_type|title }}</span
-              >
-            </div>
-          </div>
           {% empty %}
-          <div class="booking-row">
-            <div class="booking-info">
-              <div class="booking-title">No upcoming appointments yet</div>
-              <div class="booking-meta">Book a service to see it here.</div>
+            <div class="booking-row">
+              <div class="booking-info">
+                <div class="booking-title">
+                  No upcoming appointments yet
+                </div>
+
+                <div class="booking-meta">
+                  Book a service to see it here.
+                </div>
+              </div>
             </div>
-          </div>
           {% endfor %}
         </div>
       </div>
     </div>
 
-    <!-- BOOKING MODAL OVERLAY -->
+    <!-- BOOKING MODAL -->
     <div id="bookingModal" class="modal-overlay">
       <div class="modal-content">
         <div class="modal-header">
           <h2 class="modal-title">Book a Service</h2>
-          <button class="modal-close-btn" onclick="closeBookingModal()">
+
+          <button
+            class="modal-close-btn"
+            onclick="closeBookingModal()"
+          >
             ✕
           </button>
         </div>
+
         <div class="modal-body">
-          <form class="booking-form" method="POST" action="{% url 'booking' %}">
+          <form
+            class="booking-form"
+            method="POST"
+            action="{% url 'booking' %}"
+          >
             {% csrf_token %}
 
-            <!-- Service Type Selection -->
-            <div class="form-group full">
+            <!-- Service Type -->
+            <div class="form-group">
               <label class="form-label">Select Service Type</label>
+
               <div
                 style="
                   display: grid;
@@ -1462,8 +889,15 @@
                     id="service_barbering"
                     required
                   />
-                  ✂️ Barbering
+
+                  <i
+                    class="fas fa-cut"
+                    style="color: rgb(229, 73, 73)"
+                  ></i>
+
+                  Barbering
                 </label>
+
                 <label
                   style="
                     display: flex;
@@ -1478,8 +912,15 @@
                     value="laundry"
                     id="service_laundry"
                   />
-                  👕 Laundry
+
+                  <i
+                    class="fas fa-tshirt"
+                    style="color: rgb(54, 174, 54)"
+                  ></i>
+
+                  Laundry
                 </label>
+
                 <label
                   style="
                     display: flex;
@@ -1494,14 +935,21 @@
                     value="cleaning"
                     id="service_cleaning"
                   />
-                  🧹 Cleaning
+
+                  <i
+                    class="fas fa-broom"
+                    style="color: #16a34a"
+                  ></i>
+
+                  Cleaning
                 </label>
               </div>
             </div>
 
-            <!-- Delivery Type Selection -->
-            <div class="form-group full">
-              <label class="form-label">Delivery Type</label>
+            <!-- Service Mode -->
+            <div class="form-group">
+              <label class="form-label">Service Mode</label>
+
               <div
                 style="
                   display: grid;
@@ -1519,13 +967,20 @@
                 >
                   <input
                     type="radio"
-                    name="delivery_type"
+                    name="service_mode"
                     value="home_delivery"
                     id="delivery_home"
                     required
                   />
-                  🏠 Home Delivery
+
+                  <i
+                    class="fas fa-home"
+                    style="color: rgb(226, 226, 102)"
+                  ></i>
+
+                  Home service
                 </label>
+
                 <label
                   style="
                     display: flex;
@@ -1536,25 +991,37 @@
                 >
                   <input
                     type="radio"
-                    name="delivery_type"
+                    name="service_mode"
                     value="pickup"
                     id="delivery_pickup"
                   />
-                  🚚 Pickup
+
+                  <i
+                    class="fas fa-walking"
+                    style="color: rgb(102, 102, 226)"
+                  ></i>
+
+                  Walk-in
                 </label>
               </div>
             </div>
 
             <!-- Provider Selection -->
-            <div class="form-group full">
+            <div class="form-group">
               <label class="form-label">Select a Provider</label>
+
               <div id="providersContainer" class="providers-list">
                 <div
-                  style="text-align: center; padding: 20px; color: var(--sub)"
+                  style="
+                    text-align: center;
+                    padding: 20px;
+                    color: var(--sub);
+                  "
                 >
                   Select a service type above to view available providers
                 </div>
               </div>
+
               <input
                 type="hidden"
                 id="provider_id"
@@ -1564,8 +1031,9 @@
             </div>
 
             <!-- Service Date -->
-            <div class="form-group full">
+            <div class="form-group">
               <label class="form-label">Preferred Date</label>
+
               <input
                 type="date"
                 name="service_date"
@@ -1574,7 +1042,7 @@
               />
             </div>
 
-            <!-- Action Buttons -->
+            <!-- Actions -->
             <div class="modal-actions">
               <button
                 type="button"
@@ -1583,6 +1051,7 @@
               >
                 Cancel
               </button>
+
               <button type="submit" class="btn btn-gold">
                 Confirm Booking
               </button>
@@ -1592,10 +1061,12 @@
       </div>
     </div>
 
+    {{ available_providers|json_script:"available-providers-data" }}
+
     <script>
-      // Modal Functions
       function openBookingModal(serviceType = null) {
         const modal = document.getElementById("bookingModal");
+
         modal.classList.add("active");
         document.body.style.overflow = "hidden";
 
@@ -1603,6 +1074,7 @@
           const serviceInput = document.getElementById(
             `service_${serviceType}`,
           );
+
           if (serviceInput) {
             serviceInput.checked = true;
             loadProviders(serviceType);
@@ -1611,12 +1083,13 @@
       }
 
       function closeBookingModal() {
-        const modal = document.getElementById("bookingModal");
-        modal.classList.remove("active");
+        document
+          .getElementById("bookingModal")
+          .classList.remove("active");
+
         document.body.style.overflow = "auto";
       }
 
-      // Close modal when clicking outside
       document
         .getElementById("bookingModal")
         .addEventListener("click", function (e) {
@@ -1625,65 +1098,62 @@
           }
         });
 
-      // Load providers based on service type
       function loadProviders(serviceType) {
-        const container = document.getElementById("providersContainer");
+        const container =
+          document.getElementById("providersContainer");
 
-        // Simulate loading providers (you'll replace this with actual API call)
-        const mockProviders = {
-          barbering: [
-            { id: 1, name: "John's Barber Shop", rating: 4.8 },
-            { id: 2, name: "Classic Cuts", rating: 4.5 },
-            { id: 3, name: "The Grooming Lab", rating: 4.9 },
-          ],
-          laundry: [
-            { id: 4, name: "Fresh Laundry Co", rating: 4.7 },
-            { id: 5, name: "Quick Wash Services", rating: 4.6 },
-          ],
-          cleaning: [
-            { id: 6, name: "Sparkle Clean", rating: 4.8 },
-            { id: 7, name: "ProClean Services", rating: 4.4 },
-            { id: 8, name: "Elite Cleaning", rating: 4.9 },
-          ],
-        };
+        const allProviders = JSON.parse(
+          document.getElementById("available-providers-data").textContent,
+        );
 
-        const providers = mockProviders[serviceType] || [];
+        const providers = allProviders.filter(
+          (provider) => provider.service_type === serviceType,
+        );
 
         if (providers.length === 0) {
           container.innerHTML =
             '<div style="text-align: center; padding: 20px; color: var(--sub)">No providers available for this service</div>';
+
           return;
         }
 
         container.innerHTML = providers
           .map(
             (provider) => `
-          <div class="provider-option" onclick="selectProvider(${provider.id}, '${provider.name}')">
-            <div class="provider-radio"></div>
-            <div class="provider-info">
-              <div class="provider-info-name">${provider.name}</div>
-              <div class="provider-info-rating">⭐ ${provider.rating} rating</div>
-            </div>
-          </div>
-        `,
+              <div
+                class="provider-option"
+                onclick="selectProvider(${provider.id})"
+              >
+                <div class="provider-radio"></div>
+
+                <div class="provider-info">
+                  <div class="provider-info-name">
+                    ${provider.full_name}
+                  </div>
+
+                  <div class="provider-info-rating">
+                    ⭐ ${provider.rating} rating
+                  </div>
+                </div>
+              </div>
+            `,
           )
           .join("");
       }
 
-      function selectProvider(providerId, providerName) {
+      function selectProvider(providerId) {
         document.getElementById("provider_id").value = providerId;
 
-        // Update UI
-        const options = document.querySelectorAll(".provider-option");
-        options.forEach((option) => option.classList.remove("selected"));
+        document
+          .querySelectorAll(".provider-option")
+          .forEach((option) => option.classList.remove("selected"));
+
         event.currentTarget.classList.add("selected");
       }
 
-      // Reload providers when service type changes
       document.addEventListener("change", function (e) {
         if (e.target.name === "service_type") {
-          const serviceType = e.target.value;
-          loadProviders(serviceType);
+          loadProviders(e.target.value);
           document.getElementById("provider_id").value = "";
         }
       });
