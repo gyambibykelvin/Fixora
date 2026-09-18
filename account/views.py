@@ -150,6 +150,12 @@ def dashboard(request):
         },
     ]
 
+    available_providers = list(
+        Provider.objects.filter(status='active').values(
+            'id', 'full_name', 'rating', 'service_type'
+        )
+    )
+
     now = datetime.datetime.now()
     if now.hour < 12:
             greeting = 'Good morning'
@@ -165,6 +171,7 @@ def dashboard(request):
         'completed_count': completed_count,
         'providers_used': providers_used,
         'service_cards': service_cards,
+        'available_providers': available_providers,
         'upcoming_bookings': upcoming_bookings[:5],
         'greeting': greeting,
     }
