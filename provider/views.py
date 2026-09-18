@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 
 from .models import(Provider, Service, ProviderApplication)
 from booking.models import Booking
@@ -205,3 +206,34 @@ def provider_dashboard(request):
     }
 
     return render(request, "provider/provider_dashboard.html", context)
+
+
+@login_required
+@require_POST
+def update_booking_status(request, booking_id, status):
+    provider = Provider.objects.filter(user=request.user).first()
+    if provider is None:
+        messages.error(request, 'You are not registered as a provider.')
+        return redirect('dashboard')
+
+    booking = Booking.objects.filter(
+        id=booking_id,
+        provider=provider,
+    ).first()
+    if booking is None:
+        messages.error(request, 'Booking not found.')
+        return redirect('provider_dashboard')
+
+    allowed_transitions = {
+        'confirmed': {'pending'},
+        'cancelled': {'pending', 'confirmed'},
+        'completed': {'confirmed'},
+    }
+    if booking.status not in allowed_transitions.get(status, set()):
+        messages.error(request, 'This booking cannot be updated in its current state.')
+        return redirect('provider_dashboard')
+
+    booking.status = status
+    booking.save(update_fields=['status'])
+    messages.success(request, f'Booking {status} successfully.')
+    return redirect('provider_dashboard')

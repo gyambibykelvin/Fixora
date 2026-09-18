@@ -34,31 +34,47 @@
           </button>
 
           <button class="side-link" onclick="switchPanel('bookings', this)">
-            <span class="side-icon"><i class="fas fa-calendar-alt" style="color: rgb(71, 118, 210);"></i></span>
+            <span class="side-icon"
+              ><i
+                class="fas fa-calendar-alt"
+                style="color: rgb(71, 118, 210)"
+              ></i
+            ></span>
             Bookings {% if pending_count > 0 %}
             <span class="side-count"> {{ pending_count }} </span>
             {% endif %}
           </button>
 
           <button class="side-link" onclick="switchPanel('availability', this)">
-            <span class="side-icon"><i class="fas fa-clock" style="color: rgb(71, 118, 210);"></i></span>
+            <span class="side-icon"
+              ><i class="fas fa-clock" style="color: rgb(71, 118, 210)"></i
+            ></span>
             Availability
           </button>
 
           <button class="side-link" onclick="switchPanel('services', this)">
-            <span class="side-icon"><i class="fas fa-cut" style="color: rgb(154, 61, 56);"></i></span>
+            <span class="side-icon"
+              ><i class="fas fa-cut" style="color: rgb(154, 61, 56)"></i
+            ></span>
             My Services
           </button>
 
           <button class="side-link" onclick="switchPanel('reviews', this)">
-            <span class="side-icon"><i class="fas fa-star" style="color: rgb(255, 215, 0);"></i></span>
+            <span class="side-icon"
+              ><i class="fas fa-star" style="color: rgb(255, 215, 0)"></i
+            ></span>
             Reviews
           </button>
 
           <div class="side-divider"></div>
 
           <button class="side-link" onclick="switchPanel('profile', this)">
-            <span class="side-icon"><i class="fas fa-cog" style="color: rgba(242, 242, 242, 0.789);"></i></span>
+            <span class="side-icon"
+              ><i
+                class="fas fa-cog"
+                style="color: rgba(242, 242, 242, 0.789)"
+              ></i
+            ></span>
             Profile
           </button>
 
@@ -107,17 +123,20 @@
               Accepting Bookings {% endif %}
             </button>
 
+            <div class="logout-btn">
+              <a href="{% url 'logout' %}">
+                <i class="fas fa-sign-out-alt" style="color: red"></i>
+              </a>
+            </div>
+
             <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">
-              🌙
+              <i class="fas fa-moon" style="color: var(--gold)"></i>
             </button>
           </div>
         </header>
 
         <div class="content">
-          <!-- =========================
-                 OVERVIEW
-            ========================== -->
-
+          <!--OVERVIEW-->
           <section class="panel active" id="panel-overview">
             <div class="welcome">
               <h1>Welcome, {{ profile.full_name }}</h1>
@@ -196,10 +215,8 @@
                   <label class="form-label"> Service Mode </label>
 
                   <div class="info-value">
-                    {% if profile.service_mode %} {{
-                    profile.get_service_mode_display }} {% elif
-                    profile.delivery_type %} {{
-                    profile.get_delivery_type_display }} {% else %} Not
+                    {% if profile.service_mode == "home" %} Home Service {% elif
+                    profile.service_mode == "walk_in" %} Walk-in {% else %} Not
                     specified {% endif %}
                   </div>
                 </div>
@@ -330,13 +347,37 @@
                 <div class="bk-actions">
                   {% if booking.status == "pending" %}
 
-                  <button class="btn btn-primary btn-sm">Accept</button>
+                  <form
+                    method="post"
+                    action="{% url 'provider_update_booking_status' booking.id 'confirmed' %}"
+                  >
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-sm">
+                      Accept
+                    </button>
+                  </form>
 
-                  <button class="btn btn-outline btn-sm">Decline</button>
+                  <form
+                    method="post"
+                    action="{% url 'provider_update_booking_status' booking.id 'cancelled' %}"
+                  >
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline btn-sm">
+                      Decline
+                    </button>
+                  </form>
 
                   {% elif booking.status == "confirmed" %}
 
-                  <button class="btn btn-primary btn-sm">Complete</button>
+                  <form
+                    method="post"
+                    action="{% url 'provider_update_booking_status' booking.id 'completed' %}"
+                  >
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-sm">
+                      Complete
+                    </button>
+                  </form>
 
                   {% endif %}
                 </div>
@@ -553,7 +594,7 @@
                 <div class="photo-name">{{ profile.full_name }}</div>
 
                 <div class="photo-type">
-                  {{ profile.get_service_type_display }} · {% if profile.status == "active" %} Active {% else %} Inactive {% endif %}
+                  {{ profile.get_service_type_display }} · {% if profile.status == "active" %} Active {%else %} Inactive {% endif %}
                 </div>
 
                 <div class="info-value" style="margin-top: 10px">
@@ -616,11 +657,9 @@
                     <label class="form-label"> Service Mode </label>
 
                     <div class="info-value">
-                      {% if profile.service_mode %} {{
-                      profile.get_service_mode_display }} {% elif
-                      profile.delivery_type %} {{
-                      profile.get_delivery_type_display }} {% else %} Not
-                      specified {% endif %}
+                      {% if profile.service_mode == "home" %} Home Service {%
+                      elif profile.service_mode == "walk_in" %} Walk-in {% else
+                      %} Not specified {% endif %}
                     </div>
                   </div>
 
@@ -657,21 +696,15 @@
     </div>
 
     <script>
-      /* =========================
-   PANEL SWITCHING
-========================= */
+      /*    PANEL SWITCHING
+       */
 
       const titles = {
         overview: "Overview",
-
         bookings: "Booking Requests",
-
         availability: "Availability",
-
         services: "My Services",
-
         reviews: "Reviews",
-
         profile: "Profile Settings",
       };
 
