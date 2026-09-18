@@ -6,4 +6,5 @@ urlpatterns = [
     path('apply/', views.provider_application, name='provider_application'),
     path('application/status/', views.provider_application_status,name='provider_application_status'),
     path('dashboard/', views.provider_dashboard, name='provider_dashboard'),
+    path('bookings/<int:booking_id>/<str:status>/', views.update_booking_status, name='provider_update_booking_status'),
 ]
