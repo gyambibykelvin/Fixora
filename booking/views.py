@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
+from django.utils.dateparse import parse_date
 from .models import Booking
 from provider.models import Provider, Service
 from account.models import User
@@ -23,12 +24,20 @@ def booking_view(request):
         service_date = request.POST.get('service_date')
         
         # Validate required fields
-        if not all([provider_id, service_type, delivery_type]):
+        if not all([provider_id, service_type, delivery_type, service_date]):
             messages.error(request, "Please fill in all required fields.")
-            return redirect('booking')
+            return redirect('dashboard')
+
+        if parse_date(service_date) is None:
+            messages.error(request, "Please select a valid booking date.")
+            return redirect('dashboard')
         
         try:
-            selected_provider = Provider.objects.get(id=provider_id)
+            selected_provider = Provider.objects.get(
+                id=provider_id,
+                service_type=service_type,
+                status='active',
+            )
             
             # Create booking
             booking = Booking.objects.create(
@@ -48,10 +57,10 @@ def booking_view(request):
             
         except Provider.DoesNotExist:
             messages.error(request, "Selected provider not found.")
-            return redirect('booking')
+            return redirect('dashboard')
         except Exception as e:
             messages.error(request, f"Error creating booking: {str(e)}")
-            return redirect('booking')
+            return redirect('dashboard')
     
     # GET request - display available providers and services
     service_type = request.GET.get('service_type', '')
