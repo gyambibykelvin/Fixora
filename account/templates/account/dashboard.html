@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -661,12 +662,70 @@
           padding: 20px;
         }
       }
+      /* popup message */
+.popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 18px;
+  border-radius: 5px;
+  color: white;
+  margin-bottom: 10px;
+  z-index: 1000;
+  animation: fadeIn 0.5s ease;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.popup.error {
+  background-color: red;
+}
+.popup.success {
+  background-color: green;
+}
+.popup.warning {
+  background-color: tomato;
+}
+.popup.info {
+  background-color: green;
+}
+
+/* Reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.6s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
     </style>
 
     <title>Fixora - Dashboard</title>
   </head>
 
   <body>
+    <!-- login message -->
+      {% if message %}
+      <div>{{ message }}</div>
+      {% endif %}
+
+        {% for message in messages %}
+        <div class="popup {{ message.tags }}">
+          {{ message }}
+        </div> 
+        {% endfor %}
+
     <div id="page-dashboard">
       <nav class="app-nav">
         <div class="app-nav-logo">Fix<span>ora</span></div>
@@ -1158,5 +1217,6 @@
         }
       });
     </script>
+    <script src="{% static 'account/js/script.js' %}"></script>
   </body>
 </html>
