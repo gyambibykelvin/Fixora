@@ -13,18 +13,25 @@
 
     <title>Fixora - Login</title>
 
-    <style>
-     
-    </style>
+    <style></style>
   </head>
 
   <body>
+    <!-- login message -->
+    {% if message %}
+    <div>{{ message }}</div>
+    {% endif %}
+
+     {% for message in messages %}
+    <div class="popup {{ message.tags }}">
+      {{ message }}
+    </div>
+    {% endfor %}
+
     <main class="auth-wrap">
       <!-- Brand Section -->
       <section class="auth-brand">
-        <div class="auth-brand-logo">
-          Fix<span>ora</span>
-        </div>
+        <div class="auth-brand-logo">Fix<span>ora</span></div>
 
         <div class="auth-brand-hero">
           <h2>Welcome <em>back</em></h2>
@@ -47,9 +54,7 @@
           </div>
         </div>
 
-        <footer class="auth-brand-foot">
-          © 2025 Fixora · Suhum, Ghana
-        </footer>
+        <footer class="auth-brand-foot">© 2025 Fixora · Suhum, Ghana</footer>
       </section>
 
       <!-- Login Form -->
@@ -68,9 +73,7 @@
             {% csrf_token %}
 
             <div class="form-group">
-              <label class="form-label" for="email">
-                Email address
-              </label>
+              <label class="form-label" for="email"> Email address </label>
 
               <input
                 class="form-input"
@@ -84,9 +87,7 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="password">
-                Password
-              </label>
+              <label class="form-label" for="password"> Password </label>
 
               <input
                 class="form-input"
@@ -98,26 +99,16 @@
                 required
               />
 
-              <a class="forgot-password" href="#">
-                Forgot password?
-              </a>
+              <a class="forgot-password" href="#"> Forgot password? </a>
             </div>
 
             <div class="remember-row">
-              <input
-                id="remember"
-                type="checkbox"
-                name="remember_me"
-              />
+              <input id="remember" type="checkbox" name="remember_me" />
 
-              <label for="remember">
-                Remember me for 30 days
-              </label>
+              <label for="remember"> Remember me for 30 days </label>
             </div>
 
-            <button class="btn btn-primary" type="submit">
-              Sign In
-            </button>
+            <button class="btn btn-primary" type="submit">Sign In</button>
           </form>
 
           <div class="divider">
@@ -125,11 +116,7 @@
           </div>
 
           <button class="btn btn-outline" type="button">
-            <svg
-              class="google-icon"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
+            <svg class="google-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path
                 fill="#4285F4"
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -153,5 +140,6 @@
         </div>
       </section>
     </main>
+    <script src="{% static 'account/js/script.js' %}"></script>
   </body>
 </html>
