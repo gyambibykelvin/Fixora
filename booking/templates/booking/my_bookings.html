@@ -60,18 +60,19 @@
         position: sticky;
         top: 0;
         z-index: 200;
-        background: var(--navy);
-        padding: 0 24px;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        padding: 0 28px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        height: 48px;
+        height: 60px;
         gap: 8px;
       }
       .pg-nav-title {
         font-family: var(--font-d);
-        font-size: 16px;
-        color: #fff;
+        font-size: 20px;
+        color: var(--navy);
         white-space: nowrap;
       }
       .pg-nav-title span {
@@ -83,25 +84,25 @@
         overflow-x: auto;
       }
       .pg-tab {
-        padding: 6px 12px;
-        border-radius: 6px;
+        padding: 7px 14px;
+        border-radius: 8px;
         border: none;
         background: transparent;
-        color: rgba(255, 255, 255, 0.5);
+        color: var(--sub);
         font-family: var(--font-b);
-        font-size: 12px;
+        font-size: 13px;
         font-weight: 500;
         cursor: pointer;
         white-space: nowrap;
         text-decoration: none;
       }
       .pg-tab:hover {
-        background: rgba(255, 255, 255, 0.08);
-        color: rgba(255, 255, 255, 0.8);
+        background: var(--surface-2);
+        color: var(--text);
       }
       .pg-tab.active {
-        background: var(--gold);
-        color: #fff;
+        background: var(--surface-2);
+        color: var(--text);
       }
 
       .page {
@@ -363,7 +364,9 @@
             in a calm, polished view.
           </p>
         </div>
-        <a href="{% url 'booking' %}" class="btn btn-primary">Book a service</a>
+        <a href="{% url 'dashboard' %}" class="btn btn-primary"
+          >Book a service</a
+        >
       </section>
 
       <form method="get" class="filter-card">
@@ -425,7 +428,15 @@
           <div class="detail-list">
             <div class="detail-item">
               <span>Delivery</span>
-              <span>{{ booking.delivery_type|title }}</span>
+              <span>
+                {% if booking.delivery_type == "pickup" %}
+                  Walk-in
+                {% elif booking.delivery_type == "home_delivery" %}
+                  Home Service
+                {% else %}
+                  {{ booking.delivery_type|title }}
+                {% endif %}
+              </span>
             </div>
             <div class="detail-item">
               <span>Duration</span>
@@ -438,7 +449,7 @@
           </div>
 
           <div class="booking-footer">
-            {% if booking.status != 'cancelled' and booking.status != 'completed' %}
+             {% if booking.status != 'cancelled' and booking.status != 'completed' %}
             <a href="{% url 'cancel_booking' booking.id %}" class="ghost-btn"
               >Cancel</a
             >

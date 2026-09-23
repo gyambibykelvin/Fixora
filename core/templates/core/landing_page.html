@@ -5,10 +5,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"
     />
@@ -18,7 +14,7 @@
   <body>
     <!-- NAVIGATION -->
     <nav>
-      <div class="nav-inner">
+      <div class="nav-inner reveal">
         <div class="logo">Fix<span>ora</span></div>
 
         <ul class="nav-links">
@@ -34,9 +30,9 @@
     </nav>
 
     <!-- HERO -->
-    <section class="hero-section">
-      <div class="hero">
-        <div class="hero-left">
+    <section class="hero-section reveal">
+      <div class="hero reveal">
+        <div class="hero-left reveal">
           <div class="hero-badge">Now in Suhum</div>
 
           <h1>
@@ -49,7 +45,7 @@
             professionals. Schedule in seconds. Pay on arrival.
           </p>
 
-          <div class="hero-actions">
+          <div class="hero-actions reveal">
             <a href="{% url 'login' %}" class="btn-primary"> Book a Service </a>
 
             <a href="{% url 'login' %}" class="btn-outline">
@@ -57,18 +53,18 @@
             </a>
           </div>
 
-          <div class="trust-row">
+          <div class="trust-row reveal">
             <div class="trust-item">
               <div class="trust-dot"></div>
               Verified providers only
             </div>
 
-            <div class="trust-item">
+            <div class="trust-item reveal">
               <div class="trust-dot"></div>
               No upfront payment
             </div>
 
-            <div class="trust-item">
+            <div class="trust-item reveal">
               <div class="trust-dot"></div>
               Instant confirmation
             </div>
@@ -76,7 +72,7 @@
         </div>
 
         <!-- BOOKING PREVIEW -->
-        <div class="hero-card">
+        <div class="hero-card reveal">
           <div class="hero-card-header">
             <div class="hch-dot"></div>
             <div class="hch-dot"></div>
@@ -84,7 +80,7 @@
             <span class="hch-title">Book a service</span>
           </div>
 
-          <div class="hero-card-body">
+          <div class="hero-card-body reveal">
             <div class="booking-label">Select service</div>
 
             <select class="service-select">
@@ -93,7 +89,7 @@
               <option>Laundry</option>
             </select>
 
-            <div class="booking-label">Available slots — Today</div>
+            <div class="booking-label reveal">Available slots — Today</div>
 
             <div class="time-grid">
               <div class="time-slot">9:00 AM</div>
@@ -106,8 +102,8 @@
 
             <button class="confirm-btn">Confirm Booking</button>
 
-            <div class="provider-strip">
-              <div class="provider-info">
+            <div class="provider-strip reveal">
+              <div class="provider-info" reveal>
                 <div class="provider-avatar">KA</div>
 
                 <div>
@@ -124,7 +120,7 @@
     </section>
 
     <!-- SERVICES -->
-    <section class="services-section" id="service-section">
+    <section class="services-section reveal" id="service-section">
       <div class="section">
         <div class="section-label">Services</div>
 
@@ -200,7 +196,7 @@
     </section>
 
     <!-- HOW IT WORKS -->
-    <section class="how-bg" id="how-section">
+    <section class="how-bg reveal" id="how-section">
       <div class="how-inner">
         <div class="section-label">How it works</div>
 
@@ -252,7 +248,7 @@
     </section>
 
     <!-- WHY FIXORA -->
-    <section class="why-section">
+    <section class="why-section reveal">
       <div class="section">
         <div class="why-layout">
           <div>
@@ -328,7 +324,7 @@
     </section>
 
     <!-- PROVIDER CTA -->
-    <section class="provider-cta">
+    <section class="provider-cta reveal">
       <h2>Are you a service provider?</h2>
 
       <p>
@@ -342,7 +338,7 @@
     </section>
 
     <!-- FOOTER -->
-    <footer>
+    <footer class="reveal">
       <div class="footer-inner">
         <div class="footer-top">
           <div class="footer-brand">
@@ -392,16 +388,6 @@
       </div>
     </footer>
 
-    <!-- TIME SLOT INTERACTION -->
-    <script>
-      const timeSlots = document.querySelectorAll(".time-slot");
-
-      timeSlots.forEach((slot) => {
-        slot.addEventListener("click", () => {
-          timeSlots.forEach((item) => item.classList.remove("active"));
-          slot.classList.add("active");
-        });
-      });
-    </script>
+    <script src="{% static 'js/reveal.js' %}"></script>
   </body>
 </html>
