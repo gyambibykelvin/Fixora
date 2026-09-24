@@ -70,7 +70,8 @@
       <div class="dash-body">
         <div class="dash-greeting">
           <h1>
-            {{ greeting }}, {{ user.full_name|default:user.email }} <i class="fas fa-hand-wave"></i>
+            {{ greeting }}, {{ user.full_name|default:user.email }} <i class="fa-solid fa-face-smile"
+           style="color: var(--gold);"></i>
           </h1>
           <p>What would you like to book today?</p>
         </div>
@@ -155,9 +156,11 @@
           {% for booking in upcoming_bookings %}
             <div class="booking-row">
               <div class="booking-date-block">
-                <div class="booking-date-day">{{ booking.id }}</div>
+                <div class="booking-date-day">
+                  {{ booking.booking_date|date:"d" }}
+                </div>
                 <div class="booking-date-mon">
-                  {{ booking.status|title }}
+                  {{ booking.booking_date|date:"M" }}
                 </div>
               </div>
 
@@ -168,8 +171,14 @@
 
                 <div class="booking-meta">
                   {{ booking.provider.full_name }} ·
-                  {{ booking.service_mode|title }} ·
-                  {{ booking.duration }}
+                  {% if booking.delivery_type == "pickup" %}
+                    Walk-in
+                  {% elif booking.delivery_type == "home_delivery" %}
+                    Home Service
+                  {% else %}
+                    {{ booking.delivery_type|title }}
+                  {% endif %}
+                  · {{ booking.booking_time|time:"g:i A" }}
                 </div>
               </div>
 
@@ -294,12 +303,10 @@
                     value="cleaning"
                     id="service_cleaning"
                   />
-
                   <i
                     class="fas fa-broom"
                     style="color: #16a34a"
                   ></i>
-
                   Cleaning
                 </label>
               </div>
