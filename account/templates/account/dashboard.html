@@ -63,7 +63,15 @@
             </a>
           </div>
 
-          <div class="avatar">{{ user.first_name|first }}{{ user.last_name|first }}</div>
+          <div class="avatar">
+            <a href="{% url 'profile' %}">
+              {% if user.profile_picture and user.profile_picture.name != 'profile_pics/blank_profile_picture.png' %}
+                <img src="{{ user.profile_picture.url }}" alt="{{ user.full_name }}">
+              {% else %}
+                <img src="{% static 'account/img/blank_profile_picture.png' %}" alt="{{ user.full_name }}">
+              {% endif %}
+            </a>
+          </div>
         </div>
       </nav>
 

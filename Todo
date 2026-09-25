@@ -1,15 +1,20 @@
 Tomorrow Todos
  Why does a provider have two dashboard including the customer dashboard and provider's dashboard - Done
- Fix the login in page. It suppose to take the full width of the screen
- Change the location to Suhum
+ Fix the login in page. It suppose to take the full width of the screen - Dpne
+ Change the location to Suhum - Done
  Change the pleasantries to greet base on it time - Done
- Fix the booking page
- Fix the heading of my bookings
+ Fix the booking page - Done
+ Fix the heading of my bookings -Done
  Add a profile page to the customer dashboard
  Make the provider dashboard editable not fixed
- Display the pleasantries message to the right page
+ Display the pleasantries message to the right page - Done
  Add forgot password to the system
- Connect 'Back to Fixora' to the customer dashboard rather than the landing page
+ Connect 'Back to Fixora' to the customer dashboard rather than the landing page - Done
  Make a provider again if their recent application was rejected and go back to the application page
  Prevent admin login from interrupting the user login
- Implement logout button
+ Implement logout button - Done
+ 
+
+ Address
+
+ ask the user to specify Address when choosing for home service

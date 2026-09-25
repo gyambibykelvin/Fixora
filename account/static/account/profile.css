@@ -1,0 +1,450 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@400;500;600&display=swap");
+
+:root {
+  --navy: #0b1d30;
+  --gold: #c8963e;
+  --gold-d: #a87830;
+  --gold-l: #f5edd8;
+  --bg: #fafaf8;
+  --surface: #ffffff;
+  --text: #0b1d30;
+  --sub: #6e7a85;
+  --border: #e5e3de;
+  --border-2: #d5d2cb;
+  --font-d: "DM Serif Display", serif;
+  --font-b: "Outfit", sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+ /* NAVBAR */
+      .app-nav {
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        padding: 0 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 60px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .app-nav-logo {
+        font-family: var(--font-d);
+        font-size: 20px;
+        color: var(--navy);
+      }
+
+      .app-nav-logo span {
+        color: var(--gold);
+      }
+
+      .app-nav-links {
+        display: flex;
+        gap: 4px;
+      }
+
+      .app-nav-link {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--sub);
+        padding: 7px 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.15s;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        font-family: var(--font-b);
+      }
+
+      .app-nav-link:hover,
+      .app-nav-link.active {
+        background: var(--surface-2);
+        color: var(--text);
+      }
+
+      .app-nav-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .notif-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+        color: var(--sub);
+        font-size: 16px;
+      }
+
+      .notif-dot {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--gold);
+        border: 1.5px solid var(--surface);
+      }
+
+      .avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--surface);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 600;
+        color: #fff;
+        cursor: pointer;
+        letter-spacing: 0.5px;
+      }
+      .avatar a{
+        color: white;
+      }
+
+.profile-section {
+  min-height: 100vh;
+  padding: 44px 24px;
+  background: var(--bg);
+  font-family: var(--font-b);
+  color: var(--text);
+  margin: 20px;
+}
+
+.profile-container {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.back-link {
+  display: block;
+  max-width: 1080px;
+  margin: 0 auto 24px;
+  color: var(--sub);
+  font-size: 14px;
+}
+.profile-container {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.profile-grid {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 20px;
+}
+.profile-photo-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  height: fit-content;
+  padding: 24px;
+  text-align: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.photo-circle {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--navy);
+  color: white;
+  font-family: var(--font-d);
+  font-size: 32px;
+}
+.photo-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.photo-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+.photo-type {
+  margin: 0;
+  color: var(--sub);
+  font-size: 12px;
+}
+.profile-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 12px 34px rgba(11, 29, 48, 0.08);
+}
+.profile-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 42px 28px;
+}
+.eyebrow {
+  color: var(--gold-d);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.profile-summary h1 {
+  margin: 6px 0 30px;
+  font-family: var(--font-d);
+  font-size: 34px;
+  font-weight: 400;
+}
+.profile-img {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 18px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--gold-l);
+  border: 5px solid #fff;
+  box-shadow:
+    0 0 0 1px var(--border),
+    0 8px 20px rgba(11, 29, 48, 0.12);
+}
+.profile-img img,
+.avatar-fallback {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.avatar-fallback {
+  display: grid;
+  place-items: center;
+  color: var(--gold-d);
+  font-family: var(--font-d);
+  font-size: 62px;
+}
+.profile-summary h2 {
+  margin-top: 24px;
+  font-size: 21px;
+}
+.profile-summary p:last-child {
+  color: var(--sub);
+  font-size: 14px;
+}
+.profile-input {
+  display: none;
+}
+.profile-photo-card input[type="file"] {
+  display: none;
+}
+.upload-button {
+  padding: 9px 16px;
+  color: var(--navy);
+  border: 1px solid var(--border-2);
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+.profile-info {
+  padding: 38px;
+}
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+.form-group {
+  display: block;
+  margin-bottom: 16px;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+}
+.form-input {
+  width: 100%;
+  margin-top: 6px;
+  padding: 11px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  color: var(--text);
+  font-family: var(--font-b);
+  font-size: 13px;
+  outline: none;
+}
+.form-input:focus {
+  border-color: var(--gold);
+}
+.section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+.section-heading h2 {
+  margin-top: 4px;
+  font-family: var(--font-d);
+  font-size: 30px;
+  font-weight: 400;
+}
+.status {
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: #e4f5ec;
+  color: #1a7a4a;
+  font-size: 12px;
+  font-weight: 600;
+}
+.message {
+  margin-bottom: 20px;
+  padding: 10px 12px;
+  border-radius: 7px;
+  background: var(--gold-l);
+  color: var(--navy);
+  font-size: 13px;
+}
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 16px;
+}
+.field-grid label {
+  color: var(--sub);
+  font-size: 13px;
+  font-weight: 500;
+}
+.field-grid input {
+  display: block;
+  width: 100%;
+  margin-top: 7px;
+  padding: 12px 13px;
+  color: var(--text);
+  background: #fff;
+  border: 1px solid var(--border-2);
+  border-radius: 7px;
+  outline: none;
+  font-size: 15px;
+}
+.field-grid input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-l);
+}
+.full-width {
+  grid-column: 1 / -1;
+}
+.profile-info button {
+  margin-top: 30px;
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 7px;
+  background: var(--navy);
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+.profile-info button span {
+  margin-left: 18px;
+  color: var(--gold);
+  font-size: 18px;
+}
+@media (max-width: 700px) {
+  .profile-section {
+    padding: 24px 16px;
+  }
+  .profile-grid,
+  .form-row-2 {
+    grid-template-columns: 1fr;
+  }
+  .profile-info {
+    padding: 26px 20px;
+  }
+}
+
+/* save button animation from animista */
+.bounce-top{
+    animation:bounce-top .9s both
+}
+
+@keyframes bounce-top{
+    0%{
+        transform:translateY(-45px);
+        animation-timing-function:ease-in;
+        opacity:1
+    }
+    24%{
+        opacity:1
+    }
+    40%{
+        transform:translateY(-24px);
+        animation-timing-function:ease-in
+    }
+    65%{
+        transform:translateY(-12px);
+        animation-timing-function:ease-in
+    }
+    82%{
+        transform:translateY(-6px);
+        animation-timing-function:ease-in
+    }
+    93%{
+        transform:translateY(-4px);
+        animation-timing-function:ease-in
+    }
+    25%,55%,75%,87%{
+        transform:translateY(0);
+        animation-timing-function:ease-out
+    }
+    100%{
+        transform:translateY(0);
+        animation-timing-function:ease-out;
+        opacity:1
+    }
+}
+
+/* Profile picture animation from animista */
+.wobble-hor-bottom{
+    animation:wobble-hor-bottom .8s both
+}
+
+@keyframes wobble-hor-bottom{
+    0%,100%{
+        transform:translateX(0);
+        transform-origin:50% 50%
+    }
+    15%{
+        transform:translateX(-30px) rotate(-6deg)
+    }
+    30%{
+        transform:translateX(15px) rotate(6deg)
+    }
+    45%{
+        transform:translateX(-15px) rotate(-3.6deg)
+    }
+    60%{
+        transform:translateX(9px) rotate(2.4deg)
+    }
+    75%{
+        transform:translateX(-6px) rotate(-1.2deg)
+    }
+}

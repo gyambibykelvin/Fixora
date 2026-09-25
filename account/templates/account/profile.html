@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"
+    />
+  <link rel="stylesheet" href="{% static 'account/profile.css' %}">
+    <title>Fixora - Profile</title>
+</head>
+<body>
+      <nav class="app-nav">
+        <div class="app-nav-logo">Fix<span>ora</span></div>
+
+        <div class="app-nav-right">
+          <div class="notif-btn">
+            <i class="fas fa-bell" style="color: var(--gold)"></i>
+            <div class="notif-dot"></div>
+          </div>
+
+        <div class="app-nav-right">
+          <div class="logout-btn">
+            <a href="{% url 'logout' %}">
+              <i class="fas fa-sign-out-alt" style="color: red"></i>
+            </a>
+          </div>
+
+       
+        </div>
+      </nav>
+
+    <main class="profile-section">
+        <a class="back-link" href="{% url 'dashboard' %}">&larr; Back to dashboard</a>
+        <div class="profile-container">
+            <form method="POST" enctype="multipart/form-data" class="profile-grid">
+                {% csrf_token %}
+
+                <section class="profile-photo-card">
+                    <div class="photo-circle wobble-hor-bottom">
+                        {% if user.profile_picture and user.profile_picture.name != 'profile_pics/blank_profile_picture.png' %}
+                            <img id="preview" src="{{ user.profile_picture.url }}" alt="{{ user.full_name }}">
+                        {% else %}
+                            <img id="preview" src="{% static 'account/img/blank_profile_picture.png' %}" alt="{{ user.full_name}}">
+                        {% endif %}
+                    </div>
+                    <label class="upload-button" for="profile_picture">Change photo</label>
+                    <input id="profile_picture" type="file" name="profile_picture" accept="image/*" onchange="previewImage(event)">
+                    <div class="photo-name">{{ user.full_name }}</div>
+                    <div class="photo-type">Customer · <span class="status">Active</span></div>
+                </section>
+
+                <section class="profile-card profile-info">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">Personal details</p>
+                            <h2>Edit information</h2>
+                        </div>
+                        <span class="status">Active</span>
+                    </div>
+
+                    {% for message in messages %}
+                        <div class="message {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+
+                    <div class="form-row-2">
+                        <label class="form-group">Full name<input class="form-input" type="text" name="full_name" value="{{ user.full_name }}" required></label>
+                        <label class="form-group">Phone number<input class="form-input" type="tel" name="phone_number" value="{{ user.phone_number }}" inputmode="numeric" maxlength="10" required></label>
+                    </div>
+                    <label class="form-group">Email<input class="form-input" type="email" name="email" value="{{ user.email }}" required></label>
+                    <label class="form-group">Address<input class="form-input" type="text" name="address" value="{{ user.address }}" required></label>
+                    <button type="submit" class="bounce-top">Save changes <span>&rarr;</span></button>
+                    </div>
+
+                    
+                </section>
+            </form>
+        </div>
+    </section>
+    <script>
+      function previewImage(event) {
+        const preview = document.getElementById('preview');
+        const file = event.target.files[0];
+        if (!file || !preview) return;
+        if (preview.tagName !== 'IMG') {
+          const image = document.createElement('img');
+          image.id = 'preview';
+          image.alt = 'Profile preview';
+          preview.replaceWith(image);
+        }
+        document.getElementById('preview').src = URL.createObjectURL(file);
+      }
+    </script>
+</body>
+</html>

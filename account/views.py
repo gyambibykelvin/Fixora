@@ -177,3 +177,44 @@ def dashboard(request):
     }
 
     return render(request, 'account/dashboard.html', context)
+
+
+#profile
+@login_required
+def profile_view(request):
+    user = request.user
+
+    if request.method == "POST":
+        email = request.POST.get("email", "").strip()
+        phone_number = request.POST.get("phone_number", "").strip()
+        profile_picture = request.FILES.get("profile_picture")
+        full_name = request.POST.get("full_name", "").strip()
+        address = request.POST.get("address", "").strip()
+
+        if not full_name or not email or not address:
+            messages.error(request, "Name, email, and address are required.")
+            return render(request, "account/profile.html", {"user": user})
+
+        if User.objects.filter(email=email).exclude(pk=user.pk).exists():
+            messages.error(request, "That email is already in use.")
+            return render(request, "account/profile.html", {"user": user})
+
+        if not phone_number.isdigit() or len(phone_number) != 10:
+            messages.error(request, "Phone number must contain exactly 10 digits.")
+            return render(request, "account/profile.html", {"user": user})
+
+        if not address:
+             messages.error(request, "Address is required")
+             return render(request, "account/profile.html", {"user":user})
+        user.full_name = full_name
+        user.email = email
+        user.phone_number = phone_number
+        user.address = address
+        if profile_picture:
+            user.profile_picture = profile_picture
+        user.save()
+
+        messages.success(request, "Your profile has been updated.")
+        return redirect("profile")
+
+    return render(request, "account/profile.html", {"user": user})
