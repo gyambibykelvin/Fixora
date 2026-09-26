@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 * {
   box-sizing: border-box;
   margin: 0;
@@ -73,9 +73,7 @@ body {
   min-height: 100vh;
 }
 
-/* =========================
-           LAYOUT
-        ========================= */
+/* LAYOUT */
 
 .layout {
   display: grid;
@@ -83,9 +81,7 @@ body {
   min-height: 100vh;
 }
 
-/* =========================
-           SIDEBAR
-        ========================= */
+/*  SIDEBAR */
 
 .sidebar {
   background: var(--navy);
@@ -1820,4 +1816,25 @@ body {
 }
 .popup.info {
   background-color: green;
+}
+
+.card .submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 30px;
+  padding: 12px 18px;
+  appearance: none;
+  border: 0;
+  border-radius: 7px;
+  background: var(--navy);
+  color: #fff;
+  cursor: pointer;
+  font-family: var(--font-b);
+  font-size: 14px;
+  font-weight: 600;
+}
+.card .submit-btn span {
+  color: var(--gold);
+  font-size: 18px;
 }

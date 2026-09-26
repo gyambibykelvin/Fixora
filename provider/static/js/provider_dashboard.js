@@ -4,8 +4,7 @@ setTimeout(() => {
   });
 }, 5000);
 
-/*    PANEL SWITCHING
- */
+/* PANEL SWITCHING */
 
 const titles = {
   overview: "Overview",
@@ -38,9 +37,7 @@ function switchPanel(id, element) {
   document.getElementById("topbar-title").textContent = titles[id];
 }
 
-/* =========================
-   BOOKING FILTER
-========================= */
+/* BOOKING FILTER */
 
 function filterBookings(status, element) {
   document.querySelectorAll(".filter-tab").forEach((tab) => {
@@ -58,9 +55,7 @@ function filterBookings(status, element) {
   });
 }
 
-/* =========================
-   BOOKING STATUS TOGGLE
-========================= */
+/* BOOKING STATUS TOGGLE */
 
 function toggleStatus(element) {
   const dot = element.querySelector(".status-dot");
@@ -94,9 +89,7 @@ function toggleStatus(element) {
   }
 }
 
-/* =========================
-   DARK MODE
-========================= */
+/* DARK MODE  */
 
 function toggleTheme() {
   const html = document.documentElement;
@@ -113,3 +106,15 @@ function toggleTheme() {
     document.getElementById("themeBtn").textContent = "☀️";
   }
 }
+
+function previewImage(event) {
+        const preview = document.getElementById('preview');
+        const file = event.target.files[0];
+        if (!file || !preview) return;
+        if (preview.tagName !== 'IMG') {
+          const image = document.createElement('img');
+          image.id = 'preview';
+          image.alt = 'Profile preview';
+          preview.replaceWith(image);
+        }
+        document.getElementById('preview').src = URL.createObjectURL(file);

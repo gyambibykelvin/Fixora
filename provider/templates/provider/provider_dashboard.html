@@ -7,7 +7,7 @@
     <title>Fixora - Provider Dashboard</title>
     <link
       rel="stylesheet"
-      href="{% static 'provider/provider_dashboard.css' %}"
+      href="{% static 'provider/provider_dashboard.css' %}?v=2"
     />
     <link
       rel="stylesheet"
@@ -578,14 +578,11 @@
 
               <div class="profile-photo-card">
                 <div class="photo-circle">
-                  {% if profile.profile_picture %}
-
-                  <img
-                    src="{{ profile.profile_picture.url }}"
-                    alt="{{ profile.full_name }}"
-                  />
-
-                  {% else %} {{ profile.full_name|slice:":2"|upper }} {% endif%}
+               {% if user.profile_picture and user.profile_picture.name != 'profile_pics/blank_profile_picture.png' %}
+                            <img id="preview" src="{{ user.profile_picture.url }}" alt="{{ user.full_name }}">
+                        {% else %}
+                            <img id="preview" src="{% static 'account/img/blank_profile_picture.png' %}" alt="{{ user.full_name}}">
+                        {% endif %}
                 </div>
 
                 <div class="photo-name">{{ profile.full_name }}</div>
@@ -608,20 +605,20 @@
                   <div class="form-group">
                     <label class="form-label"> Full Name </label>
 
-                    <div class="info-value">{{ profile.full_name }}</div>
+                    <input class="info-value" type="text" value="{{ profile.full_name }}" name="full_name">
                   </div>
 
                   <div class="form-group">
                     <label class="form-label"> Phone Number </label>
 
-                    <div class="info-value">{{ profile.phone_number }}</div>
+                    <input type="number" class="info-value" value="{{ profile.phone_number }}" name="phone_number">
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="form-label"> Email </label>
 
-                  <div class="info-value">{{ profile.email }}</div>
+                  <input type="text" class="info-value" value="{{ profile.email }}" name="email">
                 </div>
 
                 <div class="form-group">
@@ -645,8 +642,12 @@
                   <div class="form-group">
                     <label class="form-label"> Location / Area </label>
 
-                    <div class="info-value">{{ profile.address }}</div>
+                    <input type="text" class="info-value" value="{{ profile.address }}" name="address">
                   </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary submit-btn">
+                    Save Changes <span>&Rarr;</span>
+                  </button>
                 </div>
 
                 <div class="form-row-2">
@@ -654,9 +655,11 @@
                     <label class="form-label"> Service Mode </label>
 
                     <div class="info-value">
-                      {% if profile.service_mode == "home" %} Home Service {%
-                      elif profile.service_mode == "walk_in" %} Walk-in {% else
-                      %} Not specified {% endif %}
+                      {% if profile.service_mode == "home" %} Home Service 
+                      {%elif profile.service_mode == "walk_in" %} Walk-in 
+                      {% else %}
+                       <input type="text" class="info=value" value{{ profile.service_mode}} name="service_mode">
+                        {% endif %}
                     </div>
                   </div>
 
@@ -665,7 +668,9 @@
 
                     <div class="info-value">
                       {% if profile.working_hours %} {{ profile.working_hours }}
-                      {% else %} Not specified {% endif %}
+                      {% else %} 
+                      <input type="time" class="info=value" value{{ profile.working_hours }} name="working_hours">
+                       {% endif %}
                     </div>
                   </div>
                 </div>

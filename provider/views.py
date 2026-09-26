@@ -156,7 +156,7 @@ def provider_dashboard(request):
                 delivery_type=(
                     'home_service'
                     if application.service_mode == 'home'
-                    else 'pickup'
+                    else 'walk-in'
                 ),
                 address=request.user.address,
                 bio=application.bio,
@@ -237,3 +237,42 @@ def update_booking_status(request, booking_id, status):
     booking.save(update_fields=['status'])
     messages.success(request, f'Booking {status} successfully.')
     return redirect('provider_dashboard')
+
+@login_required
+def provider_profile_view(request):
+    user = request.user
+
+    if request.method == "POST":
+       full_name = request.get("full_name", "").strip(),
+       phone_number = request.get("phone_number", "").strip(),
+       email = request.get("email", "").strip, 
+       address = request.get("address", "").strip(),
+       service_mode = request.get("service_mode", "").strip(),
+       working_hours = request.get("working_hours", "").strip
+
+       if not full_name or not address or not email:
+         messages.info(request, "Name, address or email are required")
+         return render(request,"provider/provider_dashboard", {user:user})
+
+       if Provider.objects.filter(email=email).exclude(pk=user.pk).exists():
+           messages.info(request, "Email is already in use", {user:user})
+           return render(request, "provider/provider_dashboard")
+       
+       if not phone_number.isdigit() or len(phone_number) != 10:
+                   messages.error(request, "Phone number must contain exactly 10 digits.")
+                   return render(request, "account/profile.html", {"user": user})
+
+       user.full_name = full_name
+       user.email = email
+       user.phone_number = phone_number
+       user.address = address
+    # if profile_picture:
+    #    user.profile_picture = profile_picture
+       user.save()
+       
+       messages.success(request, "Your profile has been updated.")
+       return redirect("profile")
+       
+    return render(request, "account/profile.html", {"user": user})
+           
+
