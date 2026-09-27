@@ -1,6 +1,6 @@
 {% load static %}
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,9 +9,10 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"
     />
     <link rel="stylesheet" href="{% static 'core/landing_page.css' %}" />
+    <link rel="stylesheet" href="{% static 'core/theme.css' %}?v=3" />
   </head>
 
-  <body>
+  <body class="landing-page">
     <!-- NAVIGATION -->
     <nav>
       <div class="nav-inner reveal">
@@ -23,9 +24,20 @@
           <li><a href="#">Providers</a></li>
         </ul>
 
-        <button class="nav-cta">
-          <a href="{% url 'login' %}">Login</a>
-        </button>
+        <div class="nav-actions">
+          <button
+            class="theme-toggle"
+            type="button"
+            data-theme-toggle
+            aria-label="Switch to dark mode"
+            title="Switch to dark mode"
+          >
+            ☾
+          </button>
+          <button class="nav-cta">
+            <a href="{% url 'login' %}">Login</a>
+          </button>
+        </div>
       </div>
     </nav>
 
@@ -389,5 +401,6 @@
     </footer>
 
     <script src="{% static 'js/reveal.js' %}"></script>
+    <script src="{% static 'core/theme.js' %}"></script>
   </body>
 </html>

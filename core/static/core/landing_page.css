@@ -148,6 +148,12 @@ nav {
   justify-content: space-between;
 }
 
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .logo {
   font-family: var(--font-display);
   font-size: 22px;

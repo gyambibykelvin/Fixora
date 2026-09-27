@@ -89,32 +89,15 @@ function toggleStatus(element) {
   }
 }
 
-/* DARK MODE  */
-
-function toggleTheme() {
-  const html = document.documentElement;
-
-  const dark = html.getAttribute("data-theme") === "dark";
-
-  if (dark) {
-    html.setAttribute("data-theme", "light");
-
-    document.getElementById("themeBtn").textContent = "🌙";
-  } else {
-    html.setAttribute("data-theme", "dark");
-
-    document.getElementById("themeBtn").textContent = "☀️";
-  }
-}
-
 function previewImage(event) {
-        const preview = document.getElementById('preview');
-        const file = event.target.files[0];
-        if (!file || !preview) return;
-        if (preview.tagName !== 'IMG') {
-          const image = document.createElement('img');
-          image.id = 'preview';
-          image.alt = 'Profile preview';
-          preview.replaceWith(image);
-        }
-        document.getElementById('preview').src = URL.createObjectURL(file);
+  const preview = document.getElementById("preview");
+  const file = event.target.files[0];
+  if (!file || !preview) return;
+  if (preview.tagName !== "IMG") {
+    const image = document.createElement("img");
+    image.id = "preview";
+    image.alt = "Profile preview";
+    preview.replaceWith(image);
+  }
+  document.getElementById("preview").src = URL.createObjectURL(file);
+}

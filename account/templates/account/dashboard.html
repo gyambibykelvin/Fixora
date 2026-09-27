@@ -1,6 +1,6 @@
 {% load static %}
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,7 +9,8 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"
     />
-    <link rel="stylesheet" href="{% static 'account/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'account/dashboard.css' %}?v=3">
+    <link rel="stylesheet" href="{% static 'core/theme.css' %}">
 
     <title>Fixora - Dashboard</title>
   </head>
@@ -51,6 +52,7 @@
         </div>
 
         <div class="app-nav-right">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode" title="Switch to dark mode">☾</button>
           <div class="notif-btn">
             <i class="fas fa-bell" style="color: var(--gold)"></i>
             <div class="notif-dot"></div>
@@ -438,5 +440,6 @@
     {{ available_providers|json_script:"available-providers-data" }}
 
     <script src="{% static 'account/js/script.js' %}"></script>
+    <script src="{% static 'core/theme.js' %}"></script>
   </body>
 </html>

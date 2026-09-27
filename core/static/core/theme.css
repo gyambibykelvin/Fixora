@@ -1,0 +1,342 @@
+[data-theme="dark"] {
+  color-scheme: dark;
+  --navy: #0b1d30;
+  --navy-2: #162840;
+  --gold-l: rgba(200, 150, 62, 0.16);
+  --bg: #101820;
+  --surface: #18232d;
+  --surface-2: #202e39;
+  --text: #e8edf3;
+  --sub: #a1afbc;
+  --muted: #8493a1;
+  --border: #30404d;
+  --border-2: #40515e;
+  --success-l: rgba(26, 122, 74, 0.22);
+  --danger-l: rgba(192, 57, 43, 0.2);
+  --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.28);
+}
+
+html[data-theme="dark"] {
+  --bg: #101820;
+  --surface: #18232d;
+  --surface-2: #202e39;
+  --text: #e8edf3;
+  --sub: #a1afbc;
+  --muted: #8493a1;
+  --border: #30404d;
+  --border-2: #40515e;
+  --gold-l: rgba(200, 150, 62, 0.16);
+  --success-l: rgba(26, 122, 74, 0.22);
+  --danger-l: rgba(192, 57, 43, 0.2);
+}
+
+html[data-theme="dark"] body.landing-page {
+  --cream: #101820;
+  --white: #18232d;
+  --navy: #e8edf3;
+  --navy-80: #d6e0e9;
+  --gold-light: #202e39;
+  --muted: #a1afbc;
+  --border: #30404d;
+}
+
+html[data-theme="dark"] body.landing-page nav {
+  background: rgba(16, 24, 32, 0.96);
+  border-color: var(--border);
+}
+
+html[data-theme="dark"] body.landing-page .nav-links a {
+  color: var(--sub);
+}
+
+html[data-theme="dark"] body.landing-page .nav-links a:hover,
+html[data-theme="dark"] body.landing-page .logo {
+  color: var(--text);
+}
+
+html[data-theme="dark"] body.landing-page .nav-cta {
+  background: var(--gold);
+}
+
+html[data-theme="dark"] body.landing-page .nav-cta a {
+  color: #0b1d30;
+}
+
+html[data-theme="dark"] body.landing-page .provider-cta {
+  background: #16232d;
+  border-color: #30404d;
+}
+
+html[data-theme="dark"] body.landing-page .provider-cta .btn-primary {
+  background: var(--gold);
+  color: #0b1d30;
+}
+
+html[data-theme="dark"] body.landing-page .provider-cta .btn-primary:hover {
+  background: #dda94f;
+}
+
+html[data-theme="dark"] body.landing-page .why-icon {
+  background: #263744;
+}
+
+html[data-theme="dark"] body.landing-page .why-icon.blue {
+  color: #a8c6ff;
+}
+
+html[data-theme="dark"] body.landing-page .why-icon.gold {
+  color: #f0bd62;
+}
+
+html[data-theme="dark"] body.landing-page .hero-card-header {
+  background: #0b1d30;
+}
+
+html[data-theme="dark"] body.landing-page .hero-card-header .hch-title {
+  color: #e8edf3;
+}
+
+html[data-theme="dark"] body.landing-page .hch-dot {
+  background: rgba(232, 237, 243, 0.45);
+}
+
+html[data-theme="dark"] body.landing-page .service-select,
+html[data-theme="dark"] body.landing-page .time-slot {
+  background-color: #101820;
+  border-color: #40515e;
+  color: #e8edf3;
+}
+
+html[data-theme="dark"] body.landing-page .time-slot:hover,
+html[data-theme="dark"] body.landing-page .time-slot.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #0b1d30;
+}
+
+html[data-theme="dark"] body.landing-page .confirm-btn {
+  background: var(--gold);
+  color: #0b1d30;
+}
+
+html[data-theme="dark"] body.landing-page .provider-strip {
+  border-color: var(--border);
+}
+
+html[data-theme="dark"] body.landing-page .provider-avatar {
+  background: #263744;
+  color: #e8edf3;
+}
+
+html[data-theme="dark"] body.landing-page .verified-badge {
+  background: #263744;
+  color: #f0bd62;
+}
+
+html[data-theme="dark"] body.landing-page .how-bg,
+html[data-theme="dark"] body.landing-page footer {
+  background: #0b1d30;
+}
+
+html[data-theme="dark"] body.landing-page .how-inner .section-title,
+html[data-theme="dark"] body.landing-page .step-card h3,
+html[data-theme="dark"] body.landing-page .footer-brand .logo {
+  color: #e8edf3;
+}
+
+html[data-theme="dark"] body.landing-page .step-card {
+  background: #162840;
+  border-color: #30404d;
+}
+
+html[data-theme="dark"] body.landing-page .hero-card,
+html[data-theme="dark"] body.landing-page .service-card,
+html[data-theme="dark"] body.landing-page .why-card {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+[data-theme="dark"] body {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+[data-theme="dark"] .app-nav,
+[data-theme="dark"] .pg-nav {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+}
+
+[data-theme="dark"] .app-nav-logo,
+[data-theme="dark"] .pg-nav-title,
+[data-theme="dark"] .app-nav-link,
+[data-theme="dark"] .pg-tab,
+[data-theme="dark"] .dash-greeting h1,
+[data-theme="dark"] .dash-section-hd h2,
+[data-theme="dark"] .booking-card h3,
+[data-theme="dark"] .empty-card h2,
+[data-theme="dark"] .stat-card strong,
+[data-theme="dark"] .back-link {
+  color: var(--text) !important;
+}
+
+[data-theme="dark"] .app-nav-link:hover,
+[data-theme="dark"] .pg-tab:hover,
+[data-theme="dark"] .pg-tab.active {
+  color: var(--text) !important;
+}
+
+[data-theme="dark"] .dash-greeting p,
+[data-theme="dark"] .stat-label,
+[data-theme="dark"] .svc-name,
+[data-theme="dark"] .svc-count,
+[data-theme="dark"] .booking-title,
+[data-theme="dark"] .booking-meta,
+[data-theme="dark"] .booking-date-day,
+[data-theme="dark"] .booking-date-mon,
+[data-theme="dark"] .form-label,
+[data-theme="dark"] .form-group,
+[data-theme="dark"] .info-value,
+[data-theme="dark"] .provider-info-name,
+[data-theme="dark"] .provider-info-rating,
+[data-theme="dark"] .modal-title,
+[data-theme="dark"] .section-heading h2,
+[data-theme="dark"] .section-heading .section-sub,
+[data-theme="dark"] .sec-hd h2,
+[data-theme="dark"] .sec-sub,
+[data-theme="dark"] .topbar-title,
+[data-theme="dark"] .photo-name,
+[data-theme="dark"] .photo-type,
+[data-theme="dark"] .eyebrow,
+[data-theme="dark"] .field-grid label,
+[data-theme="dark"] .booking-card h3,
+[data-theme="dark"] .provider,
+[data-theme="dark"] .detail-item,
+[data-theme="dark"] .detail-item span:last-child,
+[data-theme="dark"] .filter-card label,
+[data-theme="dark"] .stat-card span,
+[data-theme="dark"] .empty-card p {
+  color: var(--text) !important;
+}
+
+[data-theme="dark"] .dash-greeting p,
+[data-theme="dark"] .svc-count,
+[data-theme="dark"] .booking-meta,
+[data-theme="dark"] .provider-info-rating,
+[data-theme="dark"] .photo-type,
+[data-theme="dark"] .sec-sub,
+[data-theme="dark"] .detail-item,
+[data-theme="dark"] .filter-card label,
+[data-theme="dark"] .stat-card span,
+[data-theme="dark"] .empty-card p {
+  color: var(--sub) !important;
+}
+
+[data-theme="dark"] .landing-page .hero p,
+[data-theme="dark"] .landing-page .trust-item,
+[data-theme="dark"] .landing-page .booking-label,
+[data-theme="dark"] .landing-page .provider-sub,
+[data-theme="dark"] .landing-page .section-sub,
+[data-theme="dark"] .landing-page .section-heading .section-sub,
+[data-theme="dark"] .landing-page .service-card p,
+[data-theme="dark"] .landing-page .sc-providers,
+[data-theme="dark"] .landing-page .why-card p,
+[data-theme="dark"] .landing-page .provider-cta p,
+[data-theme="dark"] .landing-page .how-inner .section-sub,
+[data-theme="dark"] .landing-page .step-card p,
+[data-theme="dark"] .landing-page .footer-brand p,
+[data-theme="dark"] .landing-page .footer-links h5,
+[data-theme="dark"] .landing-page .footer-links a,
+[data-theme="dark"] .landing-page .footer-bottom {
+  color: var(--sub) !important;
+}
+
+[data-theme="dark"] .landing-page .section-title,
+[data-theme="dark"] .landing-page .service-card h3,
+[data-theme="dark"] .landing-page .why-card h4,
+[data-theme="dark"] .landing-page .provider-cta h2,
+[data-theme="dark"] .landing-page .nav-links a,
+[data-theme="dark"] .landing-page .logo {
+  color: var(--text) !important;
+}
+
+[data-theme="dark"] .landing-page .hero-card-header .hch-title,
+[data-theme="dark"] .landing-page .how-inner .section-title,
+[data-theme="dark"] .landing-page .step-card h3,
+[data-theme="dark"] .landing-page .footer-brand .logo,
+[data-theme="dark"] .landing-page .footer-links a:hover {
+  color: var(--text) !important;
+}
+
+[data-theme="dark"] .form-input::placeholder,
+[data-theme="dark"] .field-grid input::placeholder {
+  color: var(--muted) !important;
+}
+
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .svc-card,
+[data-theme="dark"] .booking-row,
+[data-theme="dark"] .profile-photo-card,
+[data-theme="dark"] .profile-card,
+[data-theme="dark"] .card,
+[data-theme="dark"] .filter-card,
+[data-theme="dark"] .booking-card,
+[data-theme="dark"] .empty-card {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+  box-shadow: var(--shadow-md);
+}
+
+[data-theme="dark"] .form-input,
+[data-theme="dark"] .field-grid input,
+[data-theme="dark"] .filter-card select {
+  color: var(--text) !important;
+  background: var(--surface-2) !important;
+  border-color: var(--border-2) !important;
+}
+
+[data-theme="dark"] .upload-button,
+[data-theme="dark"] .ghost-btn {
+  color: var(--text) !important;
+  background: var(--surface-2) !important;
+  border-color: var(--border-2) !important;
+}
+
+[data-theme="dark"] .modal-actions .btn-outline {
+  color: var(--text) !important;
+  background: transparent !important;
+  border-color: var(--border-2) !important;
+}
+
+[data-theme="dark"] .modal-actions .btn-outline:hover {
+  color: var(--text) !important;
+  background: var(--surface-2) !important;
+  border-color: var(--gold) !important;
+}
+
+[data-theme="dark"] .theme-toggle {
+  color: var(--gold) !important;
+  background: var(--surface-2) !important;
+  border-color: var(--border) !important;
+}
+
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 36px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--navy);
+  cursor: pointer;
+  font: 600 20px/1 sans-serif;
+}
+
+.theme-toggle:hover {
+  border-color: var(--gold);
+}
