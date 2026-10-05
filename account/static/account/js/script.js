@@ -1,66 +1,78 @@
- setTimeout(()=>{
-        document.querySelectorAll('.popup').forEach(el => {
-          el.style.display='none';
-        });
-      }, 5000);
+setTimeout(() => {
+  document.querySelectorAll(".popup").forEach((el) => {
+    el.style.display = "none";
+  });
+}, 5000);
 
+function openBookingModal(serviceType = null) {
+  const modal = document.getElementById("bookingModal");
 
-  function openBookingModal(serviceType = null) {
-        const modal = document.getElementById("bookingModal");
+  modal.classList.add("active");
+  document.body.style.overflow = "hidden";
 
-        modal.classList.add("active");
-        document.body.style.overflow = "hidden";
+  if (serviceType) {
+    const serviceInput = document.getElementById(`service_${serviceType}`);
 
-        if (serviceType) {
-          const serviceInput = document.getElementById(
-            `service_${serviceType}`,
-          );
+    if (serviceInput) {
+      serviceInput.checked = true;
+      loadProviders(serviceType);
+    }
+  }
+}
 
-          if (serviceInput) {
-            serviceInput.checked = true;
-            loadProviders(serviceType);
-          }
-        }
-      }
+function closeBookingModal() {
+  document.getElementById("bookingModal").classList.remove("active");
 
-      function closeBookingModal() {
-        document
-          .getElementById("bookingModal")
-          .classList.remove("active");
+  document.body.style.overflow = "auto";
+}
 
-        document.body.style.overflow = "auto";
-      }
+document.getElementById("bookingModal").addEventListener("click", function (e) {
+  if (e.target === this) {
+    closeBookingModal();
+  }
+});
 
-      document
-        .getElementById("bookingModal")
-        .addEventListener("click", function (e) {
-          if (e.target === this) {
-            closeBookingModal();
-          }
-        });
+function loadProviders(serviceType) {
+  const container = document.getElementById("providersContainer");
 
-      function loadProviders(serviceType) {
-        const container =
-          document.getElementById("providersContainer");
+  if (!serviceType) {
+    container.innerHTML =
+      '<div style="text-align: center; padding: 20px; color: var(--sub)">Select a service type above to view available providers</div>';
+    return;
+  }
 
-        const allProviders = JSON.parse(
-          document.getElementById("available-providers-data").textContent,
-        );
+  const allProviders = JSON.parse(
+    document.getElementById("available-providers-data").textContent,
+  );
 
-        const providers = allProviders.filter(
-          (provider) => provider.service_type === serviceType,
-        );
+  const selectedDelivery = document.querySelector(
+    'input[name="delivery_type"]:checked',
+  )?.value;
+  const selectedMode =
+    selectedDelivery === "home_delivery"
+      ? "home"
+      : selectedDelivery === "pickup"
+        ? "walk_in"
+        : null;
 
-        if (providers.length === 0) {
-          container.innerHTML =
-            '<div style="text-align: center; padding: 20px; color: var(--sub)">No providers available for this service</div>';
+  const providers = allProviders.filter(
+    (provider) =>
+      provider.service_type === serviceType &&
+      (!selectedMode ||
+        provider.service_mode === selectedMode ||
+        provider.service_mode === "both"),
+  );
 
-          return;
-        }
+  if (providers.length === 0) {
+    container.innerHTML =
+      '<div style="text-align: center; padding: 20px; color: var(--sub)">No providers available for this service</div>';
 
-        container.innerHTML = providers
-          .map(
-            (provider) => `
+    return;
+  }
+
+  container.innerHTML = providers
+    .map(
+      (provider) => `
               <div
                 class="provider-option"
                 onclick="selectProvider(${provider.id})"
@@ -78,23 +90,26 @@
                 </div>
               </div>
             `,
-          )
-          .join("");
-      }
+    )
+    .join("");
+}
 
-      function selectProvider(providerId) {
-        document.getElementById("provider_id").value = providerId;
+function selectProvider(providerId) {
+  document.getElementById("provider_id").value = providerId;
 
-        document
-          .querySelectorAll(".provider-option")
-          .forEach((option) => option.classList.remove("selected"));
+  document
+    .querySelectorAll(".provider-option")
+    .forEach((option) => option.classList.remove("selected"));
 
-        event.currentTarget.classList.add("selected");
-      }
+  event.currentTarget.classList.add("selected");
+}
 
-      document.addEventListener("change", function (e) {
-        if (e.target.name === "service_type") {
-          loadProviders(e.target.value);
-          document.getElementById("provider_id").value = "";
-        }
-      });
+document.addEventListener("change", function (e) {
+  if (e.target.name === "service_type" || e.target.name === "delivery_type") {
+    const selectedService = document.querySelector(
+      'input[name="service_type"]:checked',
+    )?.value;
+    loadProviders(selectedService);
+    document.getElementById("provider_id").value = "";
+  }
+});

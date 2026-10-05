@@ -21,6 +21,7 @@ class ProviderApplication(models.Model):
     class ServiceMode(models.TextChoices):
         HOME = 'home', 'Home Service'
         WALK_IN = 'walk_in', 'Walk-in'
+        BOTH = 'both', 'Home Service and Walk-in'
 
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='application')
@@ -49,6 +50,7 @@ class Provider(models.Model):
     class ServiceMode(models.TextChoices):
         HOME = 'home', 'Home Service'
         WALK_IN = 'walk_in', 'Walk-in'
+        BOTH = 'both', 'Home Service and Walk-in'
 
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='provider_profile')
@@ -56,7 +58,7 @@ class Provider(models.Model):
     email=models.EmailField(unique=True)
     phone_number=models.CharField(max_length=10)
     service_type=models.CharField(max_length=100, choices=[('barbering', 'Barbering'), ('laundry', 'Laundry'), ('cleaning', 'Cleaning')])
-    service_mode=models.CharField(max_length=20, choices=[('home', 'Home Service'), ('walk_in', 'Walk-in')])
+    service_mode=models.CharField(max_length=20, choices=ServiceMode.choices)
     delivery_type=models.CharField(max_length=20, choices=[('home_service', 'Home Service'), ('pickup', 'Pickup')])
     address=models.CharField(max_length=100)
     bio=models.TextField()

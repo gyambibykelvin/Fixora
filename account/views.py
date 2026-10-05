@@ -102,9 +102,9 @@ def logout_view(request):
     messages.success(request, "You have successfully logged out.")
     return redirect("login")
 
-#-----------
+
 #ROUTE: settings/
-#-----------
+
 @login_required
 def settings_view(request):
     if request.method == 'POST':
@@ -152,7 +152,7 @@ def dashboard(request):
 
     available_providers = list(
         Provider.objects.filter(status='active').values(
-            'id', 'full_name', 'rating', 'service_type'
+            'id', 'full_name', 'rating', 'service_type', 'service_mode'
         )
     )
 

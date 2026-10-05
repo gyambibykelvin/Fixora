@@ -216,7 +216,7 @@
 
                   <div class="info-value">
                     {% if profile.service_mode == "home" %} Home Service {% elif
-                    profile.service_mode == "walk_in" %} Walk-in {% else %} Not
+                    profile.service_mode == "walk_in" %} Walk-in {% elif profile.service_mode == "both" %} Home Service and Walk-in {% else %} Not
                     specified {% endif %}
                   </div>
                 </div>
@@ -656,6 +656,7 @@
                     <div class="info-value">
                       {% if profile.service_mode == "home" %} Home Service 
                       {%elif profile.service_mode == "walk_in" %} Walk-in 
+                      {% elif profile.service_mode == "both" %} Home Service and Walk-in
                       {% else %}
                        <input type="text" class="info=value" value{{ profile.service_mode}} name="service_mode">
                         {% endif %}
