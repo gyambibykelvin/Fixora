@@ -406,7 +406,7 @@
                 <h2>Availability</h2>
 
                 <div class="sec-sub">
-                  Your current availability information.
+                  Set the time range customers can book.
                 </div>
               </div>
             </div>
@@ -447,12 +447,27 @@
               </div>
 
               <div class="card">
-                <h3 style="margin-bottom: 12px">Working Hours</h3>
+                <h3 style="margin-bottom: 12px">Available Times</h3>
 
                 <div class="info-value">
-                  {% if profile.working_hours %} {{ profile.working_hours }} {%
-                  else %} Working hours not specified. {% endif %}
+                  {{ availability_start }} - {{ availability_end }}
                 </div>
+
+                <form method="post" action="{% url 'provider_dashboard' %}">
+                  {% csrf_token %}
+                  <div class="sec-sub">Customers can choose a time every 30 minutes within these hours.</div>
+                  <div class="form-row-2">
+                    <div class="form-group">
+                      <label class="form-label" for="availability_start">From</label>
+                      <input class="form-input" type="time" id="availability_start" name="availability_start" value="{{ availability_start }}" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="availability_end">To</label>
+                      <input class="form-input" type="time" id="availability_end" name="availability_end" value="{{ availability_end }}" required>
+                    </div>
+                  </div>
+                  <button class="btn btn-gold" type="submit">Save Changes</button>
+                </form>
               </div>
             </div>
           </section>

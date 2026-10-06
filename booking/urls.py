@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.booking_view, name='booking'),
+    path('availability/', views.provider_available_slots, name='provider_available_slots'),
     path('my-bookings/', views.my_bookings, name='my_bookings'),
     path('booking/<int:booking_id>/', views.booking_detail, name='booking_detail'),
     path('cancel/<int:booking_id>/', views.cancel_booking, name='cancel_booking'),

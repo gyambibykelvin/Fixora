@@ -4,6 +4,7 @@ setTimeout(() => {
   });
 }, 5000);
 
+/* service modal function */
 function openBookingModal(serviceType = null) {
   const modal = document.getElementById("bookingModal");
 
@@ -75,7 +76,7 @@ function loadProviders(serviceType) {
       (provider) => `
               <div
                 class="provider-option"
-                onclick="selectProvider(${provider.id})"
+                onclick="selectProvider(${provider.id}, this)"
               >
                 <div class="provider-radio"></div>
 
@@ -94,14 +95,58 @@ function loadProviders(serviceType) {
     .join("");
 }
 
-function selectProvider(providerId) {
+function selectProvider(providerId, element) {
   document.getElementById("provider_id").value = providerId;
 
   document
     .querySelectorAll(".provider-option")
     .forEach((option) => option.classList.remove("selected"));
 
-  event.currentTarget.classList.add("selected");
+  element.classList.add("selected");
+  loadAvailableTimes();
+}
+
+let availabilityRequest = 0;
+
+async function loadAvailableTimes() {
+  const timeSelect = document.getElementById("service_time");
+  const providerId = document.getElementById("provider_id").value;
+  const date = document.querySelector('input[name="service_date"]').value;
+  const requestId = ++availabilityRequest;
+
+  timeSelect.innerHTML = "";
+  timeSelect.disabled = true;
+
+  if (!providerId || !date) {
+    timeSelect.add(new Option("Select a provider and date first", ""));
+    return;
+  }
+
+  timeSelect.add(new Option("Loading available times...", ""));
+  try {
+    const query = new URLSearchParams({ provider_id: providerId, date });
+    const response = await fetch(
+      `${timeSelect.dataset.availabilityUrl}?${query.toString()}`,
+      { headers: { "X-Requested-With": "XMLHttpRequest" } },
+    );
+    if (!response.ok) throw new Error("Availability could not be loaded");
+    const { times } = await response.json();
+    if (requestId !== availabilityRequest) return;
+
+    timeSelect.innerHTML = "";
+    if (times.length === 0) {
+      timeSelect.add(new Option("No available times for this date", ""));
+      return;
+    }
+
+    timeSelect.add(new Option("Choose an available time", ""));
+    times.forEach((time) => timeSelect.add(new Option(time, time)));
+    timeSelect.disabled = false;
+  } catch (error) {
+    if (requestId !== availabilityRequest) return;
+    timeSelect.innerHTML = "";
+    timeSelect.add(new Option("Could not load available times", ""));
+  }
 }
 
 document.addEventListener("change", function (e) {
@@ -111,5 +156,10 @@ document.addEventListener("change", function (e) {
     )?.value;
     loadProviders(selectedService);
     document.getElementById("provider_id").value = "";
+    loadAvailableTimes();
   }
 });
+
+const serviceDateInput = document.querySelector('input[name="service_date"]');
+serviceDateInput.addEventListener("input", loadAvailableTimes);
+serviceDateInput.addEventListener("change", loadAvailableTimes);

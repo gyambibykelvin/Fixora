@@ -5,6 +5,7 @@ from django.views.decorators.http import require_POST
 from .models import(Provider, Service, ProviderApplication)
 from booking.models import Booking
 from django.contrib import messages
+from django.utils.dateparse import parse_time
 
 
 @login_required
@@ -167,6 +168,21 @@ def provider_dashboard(request):
         else:
             return redirect('provider_application')
 
+    if request.method == 'POST':
+        start_time = parse_time(request.POST.get('availability_start', ''))
+        end_time = parse_time(request.POST.get('availability_end', ''))
+
+        if start_time is None or end_time is None or start_time >= end_time:
+            messages.error(request, 'Choose a valid start time and a later end time.')
+            return redirect('provider_dashboard')
+
+        provider.working_hours = (
+            f'{start_time.strftime("%H:%M")}-{end_time.strftime("%H:%M")}'
+        )
+        provider.save(update_fields=['working_hours'])
+        messages.success(request, 'Your available hours have been saved.')
+        return redirect('provider_dashboard')
+
 
     # All bookings belonging to this provider
     bookings = Booking.objects.filter(provider=provider).order_by("-booking_date", "-booking_time")
@@ -184,6 +200,24 @@ def provider_dashboard(request):
     total_bookings = bookings.count()
     pending_count = pending_bookings.count()
     completed_count = completed_bookings.count()
+    availability_start = '09:00'
+    availability_end = '17:00'
+    if '-' in provider.working_hours:
+        saved_start, saved_end = provider.working_hours.split('-', 1)
+        parsed_start = parse_time(saved_start)
+        parsed_end = parse_time(saved_end)
+        if parsed_start and parsed_end:
+            availability_start = parsed_start.strftime('%H:%M')
+            availability_end = parsed_end.strftime('%H:%M')
+    elif ',' in provider.working_hours:
+        saved_times = [
+            parse_time(value.strip())
+            for value in provider.working_hours.split(',')
+        ]
+        saved_times = [value for value in saved_times if value]
+        if saved_times:
+            availability_start = min(saved_times).strftime('%H:%M')
+            availability_end = max(saved_times).strftime('%H:%M')
 
     context = {
         "provider": provider,
@@ -203,6 +237,8 @@ def provider_dashboard(request):
         "total_bookings": total_bookings,
         "pending_count": pending_count,
         "completed_count": completed_count,
+        "availability_start": availability_start,
+        "availability_end": availability_end,
     }
 
     return render(request, "provider/provider_dashboard.html", context)

@@ -152,9 +152,19 @@ def dashboard(request):
 
     available_providers = list(
         Provider.objects.filter(status='active').values(
-            'id', 'full_name', 'rating', 'service_type', 'service_mode'
+            'id', 'full_name', 'rating', 'service_type', 'service_mode', 'working_hours'
         )
     )
+    for provider in available_providers:
+        provider['booked_times'] = [
+            {
+                'date': booking_date.isoformat(),
+                'time': booking_time.strftime('%H:%M'),
+            }
+            for booking_date, booking_time in Booking.objects.filter(
+                provider_id=provider['id'],
+            ).exclude(status='cancelled').values_list('booking_date', 'booking_time')
+        ]
 
     now = datetime.datetime.now()
     if now.hour < 12:

@@ -101,3 +101,4 @@ function previewImage(event) {
   }
   document.getElementById("preview").src = URL.createObjectURL(file);
 }
+
