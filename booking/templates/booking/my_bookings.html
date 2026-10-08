@@ -5,11 +5,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
+      rel="icon"
+      type="image/png"
+      href="{% static 'img/fixora_logo.png' %}"
+    />
+    <link
       href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
     <title>My Bookings</title>
-    <link rel="stylesheet" href="{% static 'core/theme.css' %}">
+    <link rel="stylesheet" href="{% static 'core/theme.css' %}" />
     <style>
       :root {
         --navy: #0b1d30;
@@ -359,7 +364,15 @@
         <a href="{% url 'dashboard' %}" class="pg-tab">Dashboard</a>
         <a href="{% url 'my_bookings' %}" class="pg-tab active">My Bookings</a>
       </div>
-      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode" title="Switch to dark mode">☾</button>
+      <button
+        class="theme-toggle"
+        type="button"
+        data-theme-toggle
+        aria-label="Switch to dark mode"
+        title="Switch to dark mode"
+      >
+        ☾
+      </button>
     </nav>
 
     <div class="page">
@@ -436,13 +449,9 @@
             <div class="detail-item">
               <span>Delivery</span>
               <span>
-                {% if booking.delivery_type == "pickup" %}
-                  Walk-in
-                {% elif booking.delivery_type == "home_delivery" %}
-                  Home Service
-                {% else %}
-                  {{ booking.delivery_type|title }}
-                {% endif %}
+                {% if booking.delivery_type == "pickup" %} Walk-in {% elif
+                booking.delivery_type == "home_delivery" %} Home Service {% else
+                %} {{ booking.delivery_type|title }} {% endif %}
               </span>
             </div>
             <div class="detail-item">
@@ -456,7 +465,8 @@
           </div>
 
           <div class="booking-footer">
-             {% if booking.status != 'cancelled' and booking.status != 'completed' %}
+            {% if booking.status != 'cancelled' and booking.status !=
+            'completed' %}
             <a href="{% url 'cancel_booking' booking.id %}" class="ghost-btn"
               >Cancel</a
             >
