@@ -1,1 +1,44 @@
+# ENVIRONMENT VARIABLES / SECRETS
 .env
+.env.*
+!.env.example
+
+# PYTHON
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+# VIRTUAL ENVIRONMENTS
+.venv/
+venv/
+env/
+ENV/
+
+# DJANGO
+*.sqlite3
+staticfiles/
+
+# LOCAL MEDIA
+media/
+
+# TESTING / COVERAGE
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+
+# IDE / EDITOR
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OPERATING SYSTEM
+.DS_Store
+Thumbs.db
+
+# LOGS
+*.log
