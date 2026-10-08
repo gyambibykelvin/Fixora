@@ -108,20 +108,20 @@ CLOUDINARY_STORAGE = {
 # APPLICATIONS
 
 INSTALLED_APPS = [
-    "cloudinary",
-    "cloudinary_storage",
+    'cloudinary',
+    'account',
+    'core',
+    'booking',
+    'provider',
 
-    "account",
-    "core",
-    "booking",
-    "provider",
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
 
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
+    'cloudinary_storage',
 ]
 
 
@@ -167,14 +167,6 @@ WSGI_APPLICATION = "fixora.wsgi.application"
 
 
 # DATABASE
-# SQLite for now, as requested.
-#
-# IMPORTANT:
-# Render's default filesystem is ephemeral. Therefore SQLite data can be lost
-# when the service redeploys, restarts, or spins down.
-#
-# We are intentionally keeping SQLite for this deployment stage.
-#
 
 DATABASES = {
     "default": {
@@ -216,10 +208,26 @@ STORAGES = {
 
 MEDIA_URL = "/media/"
 
-
 STATIC_URL = "/static/"
-
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STATICFILES_STORAGE = (
+    "whitenoise.storage.CompressedManifestStaticFilesStorage"
+)
+
+STORAGES = {
+    "default": {
+        "BACKEND": (
+            "cloudinary_storage.storage.MediaCloudinaryStorage"
+        ),
+    },
+
+    "staticfiles": {
+        "BACKEND": (
+            "whitenoise.storage.CompressedManifestStaticFilesStorage"
+        ),
+    },
+}
 
 
 
